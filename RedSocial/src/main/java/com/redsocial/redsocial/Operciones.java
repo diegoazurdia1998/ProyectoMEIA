@@ -54,6 +54,10 @@ public class Operciones {
 
         return seguridad;
    }
-
+public void LamarMenu(boolean bitRol){
+    if(bitRol){
+        
+    }
+}
 
 }

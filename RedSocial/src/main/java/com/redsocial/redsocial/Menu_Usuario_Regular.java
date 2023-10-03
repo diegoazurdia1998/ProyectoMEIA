@@ -42,7 +42,6 @@ public class Menu_Usuario_Regular extends javax.swing.JFrame {
         txtCorreo = new javax.swing.JTextField();
         passFContrasenaNueva = new javax.swing.JPasswordField();
         jLabel4 = new javax.swing.JLabel();
-        txtFechaanio = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         txtTelefono = new javax.swing.JTextField();
@@ -50,8 +49,7 @@ public class Menu_Usuario_Regular extends javax.swing.JFrame {
         txtFotografia = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         passFContrasena = new javax.swing.JPasswordField();
-        comboFehcaDia = new javax.swing.JComboBox<>();
-        comboFechaMes = new javax.swing.JComboBox<>();
+        dateCFecha = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menú");
@@ -84,8 +82,6 @@ public class Menu_Usuario_Regular extends javax.swing.JFrame {
 
         jLabel4.setText("Fecha de nacieminto");
 
-        txtFechaanio.setText("Año");
-
         jLabel5.setText("Ingrese los datos que deaea actualizar");
 
         jLabel6.setText("Teléfono");
@@ -93,10 +89,6 @@ public class Menu_Usuario_Regular extends javax.swing.JFrame {
         jLabel7.setText("Ruta de la fotografía");
 
         jLabel8.setText("Ingrese su contraseña actual");
-
-        comboFehcaDia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
-
-        comboFechaMes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -114,6 +106,7 @@ public class Menu_Usuario_Regular extends javax.swing.JFrame {
                         .addGap(208, 208, 208))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(dateCFecha, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(passFContrasenaNueva)
                             .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -121,15 +114,8 @@ public class Menu_Usuario_Regular extends javax.swing.JFrame {
                             .addComponent(txtTelefono, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGap(1, 1, 1)
-                                .addComponent(comboFehcaDia, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(comboFechaMes, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtFechaanio, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(txtFotografia, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnActualizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -164,10 +150,7 @@ public class Menu_Usuario_Regular extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtFechaanio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(comboFehcaDia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(comboFechaMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(dateCFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(26, 26, 26)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -198,7 +181,7 @@ public class Menu_Usuario_Regular extends javax.swing.JFrame {
         String validarContrasena = passFContrasena.getSelectedText();
         if(validarContrasena.equals(auxUsuario.Password))
         {
-            String fecha = comboFehcaDia.getSelectedIndex()+'-'+comboFechaMes.getSelectedIndex()+'-'+txtFechaanio.getText();
+            String fecha = dateCFecha.getDateFormatString();
             SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
             Date date;
             try {
@@ -255,8 +238,7 @@ public class Menu_Usuario_Regular extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnInhabilitar;
-    private javax.swing.JComboBox<String> comboFechaMes;
-    private javax.swing.JComboBox<String> comboFehcaDia;
+    private com.toedter.calendar.JDateChooser dateCFecha;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -268,7 +250,6 @@ public class Menu_Usuario_Regular extends javax.swing.JFrame {
     private javax.swing.JPasswordField passFContrasena;
     private javax.swing.JPasswordField passFContrasenaNueva;
     private javax.swing.JTextField txtCorreo;
-    private javax.swing.JTextField txtFechaanio;
     private javax.swing.JTextField txtFotografia;
     private javax.swing.JTextField txtTelefono;
     // End of variables declaration//GEN-END:variables
