@@ -5,19 +5,22 @@
 package com.redsocial.redsocial;
 import java.io.File;
 import java.util.regex.Pattern;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import management.*;
 /**
  *
  * @author diego
  */
 public class Buscar_Usuario extends javax.swing.JFrame {
-
+    Usuario auxAdmin;
     /**
      * Creates new form Buscar_Usuario
+     * @param admin
      */
-    public Buscar_Usuario() {
+    public Buscar_Usuario(Usuario admin) {
         initComponents();
-        
+        auxAdmin = admin;
     }
 
     /**
@@ -90,6 +93,8 @@ public class Buscar_Usuario extends javax.swing.JFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
+        JFrame ventana = new Menu_Usuario_Administrador(auxAdmin);
+        ventana.setVisible(true);
         dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
@@ -101,7 +106,7 @@ public class Buscar_Usuario extends javax.swing.JFrame {
         ManejoArchivo objManejo = new ManejoArchivo();
         if(objManejo.CantidadRegistros(Archivo, strError) != 0 || 
                 objManejo.CantidadRegistros(Bitacora, strError) != 0){
-            if(!txtBuscar.getText().equals("") && !String.valueOf(txtBuscar.getText()).equals(""))
+            if(!txtBuscar.getText().equals(""))
             {
                 objManejo.RegresarPrincipio(Archivo, strError);
                 var strActual = objManejo.BuscarLinea(Archivo, txtBuscar.getText(), strError, 0, 9);
@@ -111,12 +116,25 @@ public class Buscar_Usuario extends javax.swing.JFrame {
                 if(!strActual.equals("")){
                     var split = strActual.split(Pattern.quote("|"));
                     
-                    Usuario usuario = new Usuario(split[0], split[1], split[2], split[3], Integer.parseInt(split[4]), split[5], split[6], Integer.parseInt(split[7]), split[8], Integer.parseInt(split[9]));
-                        var visual =  new Visualizador(usuario);
+                    Usuario usuario = new Usuario(split[0], split[1], split[2], split[3], Integer.parseInt(split[4]), split[5], split[6], split[7], split[8], Integer.parseInt(split[9]));
+                        var visual =  new Visualizador(usuario, auxAdmin);
                         visual.setVisible(true);
                         this.dispose();
                 }
-            }}
+                else{
+                    //No se encontró al usuario
+                    JOptionPane.showMessageDialog(null, "Usuario no encontrado", "FALLO", 1);
+                }
+            }
+            else{
+                //Busqueda vacia
+                JOptionPane.showMessageDialog(null, "No ingresó un usuario", "FALLO", 1);
+            }
+        }
+        else{
+            //Cantidad de registros en los archivos
+            JOptionPane.showMessageDialog(null, "Registros insuficientes", "FALLO", 1);
+        }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     /**
@@ -149,7 +167,7 @@ public class Buscar_Usuario extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Buscar_Usuario().setVisible(true);
+                new Buscar_Usuario(new Usuario("")).setVisible(true);
             }
         });
     }

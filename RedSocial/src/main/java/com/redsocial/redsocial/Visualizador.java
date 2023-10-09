@@ -3,13 +3,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.redsocial.redsocial;
-
+import com.mycompany.primer_proyecto.*;
+import com.redsocial.redsocial.*;
+import javax.swing.JFrame;
 /**
  *
  * @author Emilio
  */
 public class Visualizador extends javax.swing.JFrame {
     Usuario aux;
+    Usuario auxAdmin;
     /**
      * Creates new form Visualizador
      * @param usuario
@@ -27,7 +30,20 @@ public class Visualizador extends javax.swing.JFrame {
         }
         lblPath.setText(usuario.Path_fotografia);
     }
-
+public Visualizador(Usuario usuario, Usuario admin) {
+        initComponents();
+        aux = usuario;
+        auxAdmin = admin;
+        lblUsuario.setText(usuario.Nombre);
+        if(usuario.Rol == 1)
+        {
+            lblRol.setText("Administrador");
+        }else
+        {
+            lblRol.setText("Regular");
+        }
+        lblPath.setText(usuario.Path_fotografia);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -41,6 +57,7 @@ public class Visualizador extends javax.swing.JFrame {
         lblRol = new javax.swing.JLabel();
         lblPath = new javax.swing.JLabel();
         btnLlamarVentana = new javax.swing.JButton();
+        btnLlamarVentana1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -48,7 +65,7 @@ public class Visualizador extends javax.swing.JFrame {
 
         lblRol.setText("jLabel1");
 
-        lblPath.setText("jLabel1");
+        lblPath.setText("No se ha podido guardar la foto");
 
         btnLlamarVentana.setText("Menu de usuario");
         btnLlamarVentana.addActionListener(new java.awt.event.ActionListener() {
@@ -57,22 +74,33 @@ public class Visualizador extends javax.swing.JFrame {
             }
         });
 
+        btnLlamarVentana1.setText("Cerrar sesión");
+        btnLlamarVentana1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLlamarVentana1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblUsuario)
-                        .addGap(158, 158, 158)
-                        .addComponent(lblPath))
-                    .addComponent(lblRol))
-                .addContainerGap(55, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnLlamarVentana)
+                        .addGap(14, 14, 14)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblUsuario)
+                            .addComponent(lblRol)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnLlamarVentana1)))
+                .addGap(45, 45, 45)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblPath)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(btnLlamarVentana, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -85,7 +113,9 @@ public class Visualizador extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(lblRol)
                 .addGap(52, 52, 52)
-                .addComponent(btnLlamarVentana)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnLlamarVentana)
+                    .addComponent(btnLlamarVentana1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -94,16 +124,36 @@ public class Visualizador extends javax.swing.JFrame {
 
     private void btnLlamarVentanaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLlamarVentanaActionPerformed
         // TODO add your handling code here:
-        if(aux.Rol == 1){
-            var ventana  = new Menu_Usuario_Administrador(aux);
-            ventana.setVisible(true);
+        if(auxAdmin == null){
+            if(aux.Rol == 1){
+                var ventana  = new Menu_Usuario_Administrador(aux);
+                ventana.setVisible(true);
+            }
+            else{
+                var ventana  = new Menu_Usuario_Regular(aux);
+                ventana.setVisible(true);
+            }
+            this.dispose();
         }
         else{
-            var ventana  = new Menu_Usuario_Regular(aux);
-            ventana.setVisible(true);
+            var ventana  = new Menu_Usuario_Regular(aux , auxAdmin);
+                ventana.setVisible(true);
         }
-        this.dispose();
     }//GEN-LAST:event_btnLlamarVentanaActionPerformed
+
+    private void btnLlamarVentana1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLlamarVentana1ActionPerformed
+        // TODO add your handling code here:
+        JFrame ventana;
+        if(auxAdmin != null) {
+            ventana = new Menu_Usuario_Administrador(auxAdmin);
+        }
+        else{
+            ventana = new Login();
+        }
+        
+        ventana.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnLlamarVentana1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -143,6 +193,7 @@ public class Visualizador extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLlamarVentana;
+    private javax.swing.JButton btnLlamarVentana1;
     private javax.swing.JLabel lblPath;
     private javax.swing.JLabel lblRol;
     private javax.swing.JLabel lblUsuario;

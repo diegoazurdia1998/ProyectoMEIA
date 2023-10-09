@@ -1,0 +1,4 @@
+pepa|pepa|pig|1234567890|0|Fri Oct 06 00:00:00 CST 2023|pepag|0101010101|No se ha podido guardar la foto|1
+pepe|pepe|grillo|1234567890|1|Wed Oct 04 19:00:39 CST 2023|pepeg|1234567890|No se ha podido guardar la foto|1
+pepito|pepito|pepi|1234567890|0|Sun Oct 01 00:00:00 CST 2023|pepipepino|1010101010|No se ha podido guardar la foto|1
+usu|usu|uusu|1234567890|0|Sun Oct 01 22:57:45 CST 2023|12341234|758469|No se ha podido guardar la foto|1

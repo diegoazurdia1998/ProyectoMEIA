@@ -23,7 +23,7 @@ public class Usuario {
     int Rol;
     String Fecha_nacimiento;
     String Correo_electronico;
-    int Telefono;
+    String Telefono;
     String Path_fotografia;
     int Estatus;
     /**
@@ -46,7 +46,7 @@ public class Usuario {
      * @param PPath_fotografia ruta de acceso a la fotografia
      * @param PEstatus bit de estatus (Activo: true, default, Inactivo: false)
      */
-    public Usuario(String PUsuario, String PNombre, String PApellido, String PPassword, String PRol, String PFecha_nacimiento, String PCorreo_electronico, int PTelefono, String PPath_fotografia, String PEstatus)
+    public Usuario(String PUsuario, String PNombre, String PApellido, String PPassword, String PRol, String PFecha_nacimiento, String PCorreo_electronico, String PTelefono, String PPath_fotografia, String PEstatus)
     {
         this.Usuario = PUsuario;
         this.Nombre = PNombre;
@@ -72,7 +72,7 @@ public class Usuario {
      * @param PPath_fotografia ruta de acceso a la fotografia
      * @param PEstatus bit de estatus (Activo: true, default, Inactivo: false)
      */
-    public Usuario(String PUsuario, String PNombre, String PApellido, String PPassword, int PRol, String PFecha_nacimiento, String PCorreo_electronico, int PTelefono, String PPath_fotografia, int PEstatus)
+    public Usuario(String PUsuario, String PNombre, String PApellido, String PPassword, int PRol, String PFecha_nacimiento, String PCorreo_electronico, String PTelefono, String PPath_fotografia, int PEstatus)
     {
         this.Usuario = PUsuario;
         this.Nombre = PNombre;
@@ -97,7 +97,7 @@ public class Usuario {
      * @param PTelefono Telefono
      * @param PPath_fotografia ruta de acceso a la fotografia
      */
-    public Usuario(String PUsuario, String PNombre, String PApellido, String PPassword, String PFecha_nacimiento, String PCorreo_electronico, int PTelefono, String PPath_fotografia)
+    public Usuario(String PUsuario, String PNombre, String PApellido, String PPassword, String PFecha_nacimiento, String PCorreo_electronico, String PTelefono, String PPath_fotografia)
     {
         this.Usuario = PUsuario;
         this.Nombre = PNombre;

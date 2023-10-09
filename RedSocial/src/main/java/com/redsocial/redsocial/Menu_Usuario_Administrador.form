@@ -44,7 +44,8 @@
                               <Component id="txtFotografia" alignment="0" max="32767" attributes="0"/>
                               <Component id="jLabel7" alignment="0" pref="206" max="32767" attributes="0"/>
                           </Group>
-                          <Component id="jLabel5" pref="206" max="32767" attributes="0"/>
+                          <Component id="jLabel5" pref="210" max="32767" attributes="0"/>
+                          <Component id="btnRegresa" alignment="1" max="32767" attributes="0"/>
                       </Group>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
@@ -63,10 +64,12 @@
                                   <Component id="btnBuscar" alignment="0" max="32767" attributes="0"/>
                                   <Component id="btnReorganizar" alignment="0" max="32767" attributes="0"/>
                                   <Component id="btnRespaldar" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="txtBackup" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jLabel9" alignment="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
-                      <EmptySpace pref="18" max="32767" attributes="0"/>
+                      <EmptySpace pref="14" max="32767" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -100,8 +103,13 @@
                   <Component id="dateCFecha" min="-2" max="-2" attributes="0"/>
                   <Component id="btnReorganizar" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+              <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtBackup" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="txtTelefono" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -120,10 +128,13 @@
                   <Group type="102" attributes="0">
                       <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
-                      <Component id="btnActualizar" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="btnActualizar" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnRegresa" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="119" max="32767" attributes="0"/>
+              <EmptySpace pref="16" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -222,6 +233,21 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRespaldarActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JTextField" name="txtBackup">
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel9">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Ruta de respaldo"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnRegresa">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Regresar"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRegresaActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

@@ -4,13 +4,10 @@
  */
 package com.mycompany.primer_proyecto;
 
-import java.awt.Image;
+
 import java.awt.event.KeyEvent;
-import static java.awt.image.ImageObserver.HEIGHT;
 import java.io.File;
 import java.util.regex.Pattern;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import management.Data;
 import management.ManejoArchivo;
@@ -153,8 +150,8 @@ public class Login extends javax.swing.JFrame {
                     var objUsuario = new ManejoUsuario();
                     if(String.valueOf(TF_Password.getPassword()).equals(objUsuario.decrypt(split[3]))){
                         //INGRESO AL SISTEMA
-                        JOptionPane.showMessageDialog(null, "Ingreso al sistema", "Excelente", 1);
-                        Usuario usuario = new Usuario(split[0], split[1],split[2], split[3], Integer.parseInt(split[4]), split[5],split[6], Integer.parseInt(split[7]),split[8], Integer.parseInt(split[9]));
+                        //JOptionPane.showMessageDialog(null, "Ingreso al sistema", "Excelente", 1);
+                        Usuario usuario = new Usuario(split[0], split[1],split[2], split[3], Integer.parseInt(split[4]), split[5],split[6], split[7],split[8], Integer.parseInt(split[9]));
                         var ventana =  new Visualizador(usuario);
                         ventana.setVisible(true);
                         this.dispose();
@@ -211,7 +208,7 @@ public class Login extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
        int iRespuesta = JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea salir? ", "¿Salir?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-        if (iRespuesta == 0) 
+       if (iRespuesta == 0) 
         {
             var objManejoArchivo = new ManejoArchivo();
             File Archivo = new File("C:/MEIA/usuario.txt");
@@ -237,11 +234,8 @@ public class Login extends javax.swing.JFrame {
                     objManejoArchivo.ModifyFilesDescUser("usuario", 9, "root", false, strError);
                 }
             }
-            objManejoArchivo.limpiarSalir("contactos", 4);
-            objManejoArchivo.limpiarSalir("lista", 5);
-            objManejoArchivo.limpiarBI("Lista_usuario");
-            
             System.exit(0);
+            
         } 
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -256,7 +250,7 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
          TF_Password.setText(null);
     }//GEN-LAST:event_TF_PasswordMouseClicked
-
+    
     /**
      * @param args the command line arguments
      */
@@ -301,4 +295,7 @@ public class Login extends javax.swing.JFrame {
     private java.awt.Label label1;
     private java.awt.Label label2;
     // End of variables declaration//GEN-END:variables
+private String Pattern(String string) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

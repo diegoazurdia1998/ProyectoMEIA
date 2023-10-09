@@ -1,0 +1,6 @@
+nombre_simbolico:bitacora_backup 
+fecha_creacion:2023/10/09 00:30:45
+usuario_creacion:null
+fecha_modificacion:2023/10/09 00:30:45
+usuario_modificacion:null
+#_registros:1 

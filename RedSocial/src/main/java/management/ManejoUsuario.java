@@ -133,6 +133,41 @@ public class ManejoUsuario {
         return "Se ha agregado existosamente el usuario";
     }
 
+    public boolean ModificarUsuario(String user, String nombre, String apellido, String pass,int rol,String fecha , String correoAlt, String telefono, String foto, int estatus)
+    {
+      // volver a sobreescribir los datos
+        var objManejoArchivo = new ManejoArchivo();
+        File Archivo = new File("C:/MEIA/usuario.txt");
+        File Bita = new File("C:/MEIA/bitacora_usuario.txt");
+        var strError = "";
+        //strContenidoBusqueda
+        var ArchivoUser = objManejoArchivo.BuscarLinea(Archivo, user, strError, 0, 9);
+        var ArchivoBita = objManejoArchivo.BuscarLinea(Bita, user, strError, 0, 9);
+        if(!ArchivoUser.equals("") ){
+         //  Usuario ya existe y se sobreescribe                        
+         try
+         {
+          var split = ArchivoUser.split(Pattern.quote("|"));
+              var strContenido = user + "|" + nombre + "|" + apellido + "|" + encrypt(pass,2,8) + "|" + rol + "|" + fecha + "|" + correoAlt + "|" + telefono + "|" + foto + "|" + estatus;          
+            boolean mensaje = objManejoArchivo.Modificar(Archivo, ArchivoUser, strContenido, strError);
+            return mensaje;
+         }
+         catch(Exception ex){return false;}
+         
+        }
+        else if(!ArchivoBita.equals(""))
+        {
+         try
+         {
+          var split = ArchivoBita.split(Pattern.quote("|"));
+              var strContenido = user + "|" + nombre + "|" + apellido + "|" + pass + "|" + rol + "|" + fecha + "|" + correoAlt + "|" + telefono + "|" + foto + "|" + split[9];          
+         boolean mensaje = objManejoArchivo.Modificar(Bita, ArchivoBita, strContenido, strError);
+         return mensaje;
+         }
+         catch(Exception ex){  return false;}
+        }
+        return true;
+    }
     public boolean ModificarUsuario(String user, String nombre, String apellido, String pass,int rol,String fecha , String correoAlt, String telefono, String foto)
     {
       // volver a sobreescribir los datos
@@ -148,7 +183,7 @@ public class ManejoUsuario {
          try
          {
           var split = ArchivoUser.split(Pattern.quote("|"));
-              var strContenido = user + "|" + nombre + "|" + apellido + "|" + pass + "|" + rol + "|" + fecha + "|" + correoAlt + "|" + telefono + "|" + foto + "|" + split[9];          
+              var strContenido = user + "|" + nombre + "|" + apellido + "|" + encrypt(pass,2,8) + "|" + rol + "|" + fecha + "|" + correoAlt + "|" + telefono + "|" + foto + "|" + split[9];          
             boolean mensaje = objManejoArchivo.Modificar(Archivo, ArchivoUser, strContenido, strError);
             return mensaje;
          }

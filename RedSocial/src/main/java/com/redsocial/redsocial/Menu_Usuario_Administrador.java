@@ -6,6 +6,7 @@ package com.redsocial.redsocial;
 import java.io.File;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
+import javax.swing.JFrame;
 import management.*;
 import com.mycompany.primer_proyecto.Register;
 
@@ -52,6 +53,9 @@ Usuario auxUsuario;
         btnBuscar = new javax.swing.JButton();
         btnReorganizar = new javax.swing.JButton();
         btnRespaldar = new javax.swing.JButton();
+        txtBackup = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        btnRegresa = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -112,6 +116,15 @@ Usuario auxUsuario;
             }
         });
 
+        jLabel9.setText("Ruta de respaldo");
+
+        btnRegresa.setText("Regresar");
+        btnRegresa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -135,7 +148,8 @@ Usuario auxUsuario;
                                 .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(txtFotografia, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE))
-                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE))
+                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
+                            .addComponent(btnRegresa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(31, 31, 31)
@@ -150,8 +164,10 @@ Usuario auxUsuario;
                                     .addComponent(btnAnadir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(btnBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(btnReorganizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnRespaldar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                        .addContainerGap(18, Short.MAX_VALUE))))
+                                    .addComponent(btnRespaldar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtBackup)
+                                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap(14, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -178,8 +194,12 @@ Usuario auxUsuario;
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(dateCFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnReorganizar))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel6)
+                .addGap(2, 2, 2)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(txtBackup, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -195,8 +215,10 @@ Usuario auxUsuario;
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel8)
                         .addGap(34, 34, 34)
-                        .addComponent(btnActualizar)))
-                .addContainerGap(119, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnActualizar)
+                            .addComponent(btnRegresa))))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         pack();
@@ -221,11 +243,22 @@ Usuario auxUsuario;
                     if(String.valueOf(passFContrasena.getPassword()).equals(objUsuario.decrypt(split[3]))){
                         //INGRESO AL SISTEMA
                         var visual =  new Visualizador(auxUsuario);
-                        visual.setVisible(objUsuario.ModificarUsuario(split[0], split[1], split[2], split[3], Integer.parseInt(split[4]), split[5], split[6], split[7], split[8]));
                         
-                        this.dispose();
-                        JOptionPane.showMessageDialog(null, "Ingreso al sistema", "Excelente", 1);
+                        String fecha = (dateCFecha != null) ? dateCFecha.getDateFormatString() : split[5];
+                        String contrasena = !(String.valueOf(passFContrasenaNueva.getPassword())).equals("") ? String.valueOf(passFContrasenaNueva.getPassword()) : split[3];
+                        String correo = !txtCorreo.getText().equals("") ? txtCorreo.getText() : split[6];
+                        String telefono = !txtTelefono.getText().equals("") ? txtTelefono.getText() : split[7];
+                        String fotografia = !txtFotografia.getText().equals("") ? txtFotografia.getText() : split[8];
+
+                        // Llamar a la función con los valores adecuados
+                        if(objUsuario.ModificarUsuario(split[0], split[1], split[2], contrasena, Integer.parseInt(split[4]), fecha, correo, telefono, fotografia))
+                        {
+                            visual.setVisible(true);
+                            this.dispose();
+                        }
+                        else JOptionPane.showMessageDialog(null, "Error actualizando", "FALLO", 1);
                     }
+                    else JOptionPane.showMessageDialog(null, "Contraseña incorrecta", "FALLO", 1);
                 }
                 else{
                     //No se encontró el usuario
@@ -234,7 +267,7 @@ Usuario auxUsuario;
             }
             else{
                 //Password vacio
-                JOptionPane.showMessageDialog(null, "Contraseña incorrecta", "FALLO", 1);
+                JOptionPane.showMessageDialog(null, "Contraseña vacía", "FALLO", 1);
             }
         }
         else{
@@ -249,28 +282,42 @@ Usuario auxUsuario;
 
     private void btnAnadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnadirActionPerformed
         // TODO add your handling code here:
-        var registrar = new Register();
+        Data.getData().setRole("0");
+        var registrar = new Register(auxUsuario);
         registrar.setVisible(true);
-        
+        this.dispose();
         
     }//GEN-LAST:event_btnAnadirActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
-        var buscar =  new Buscar_Usuario();
+        var buscar =  new Buscar_Usuario(auxUsuario);
         buscar.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnReorganizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReorganizarActionPerformed
         // TODO add your handling code here:
         var objManArch = new ManejoArchivo();
         objManArch.limpiarSalir("usuario", auxUsuario.Usuario, 9);
+        JOptionPane.showMessageDialog(null, "Archivos reorganizados", "EXITO", 1);
     }//GEN-LAST:event_btnReorganizarActionPerformed
 
     private void btnRespaldarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRespaldarActionPerformed
         // TODO add your handling code here:
-        
+        Data.getData().setUser(auxUsuario.Usuario);
+        BackupManagement backup = new BackupManagement();
+        backup.DoBackup(txtBackup.getText());
+        backup.CreateFiles(txtBackup.getText());
+        JOptionPane.showMessageDialog(null, "Archivos respardados en: " + txtBackup.getText(), "EXITO", 1);
     }//GEN-LAST:event_btnRespaldarActionPerformed
+
+    private void btnRegresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresaActionPerformed
+        // TODO add your handling code here:
+        JFrame ventana = new Visualizador(auxUsuario);
+        ventana.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnRegresaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -312,6 +359,7 @@ Usuario auxUsuario;
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnAnadir;
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnRegresa;
     private javax.swing.JButton btnReorganizar;
     private javax.swing.JButton btnRespaldar;
     private com.toedter.calendar.JDateChooser dateCFecha;
@@ -322,9 +370,11 @@ Usuario auxUsuario;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel lblUsuario;
     private javax.swing.JPasswordField passFContrasena;
     private javax.swing.JPasswordField passFContrasenaNueva;
+    private javax.swing.JTextField txtBackup;
     private javax.swing.JTextField txtCorreo;
     private javax.swing.JTextField txtFotografia;
     private javax.swing.JTextField txtTelefono;

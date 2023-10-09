@@ -1,5 +1,6 @@
 package com.mycompany.primer_proyecto;
 
+import com.redsocial.redsocial.Menu_Usuario_Administrador;
 import management.ManejoUsuario;
 import management.ManejoArchivo;
 import management.Data;
@@ -12,6 +13,8 @@ import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import com.redsocial.redsocial.Usuario;
+import javax.swing.JFrame;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -23,7 +26,7 @@ import javax.swing.JOptionPane;
  * @author derly
  */
 public class Register extends javax.swing.JFrame {
-
+Usuario auxAdmin;
     /**
      * Creates new form CrearUsuario
      */
@@ -31,6 +34,14 @@ public class Register extends javax.swing.JFrame {
     private boolean visible = false;
     public Register() {
         initComponents();
+        Image img = new ImageIcon("icon.png").getImage();
+        Image newImg = img.getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
+        L_Visible.setIcon(new ImageIcon(newImg));
+        L_Visible1.setIcon(new ImageIcon(newImg));
+    }
+    public Register(Usuario admin) {
+        initComponents();
+        auxAdmin = admin;
         Image img = new ImageIcon("icon.png").getImage();
         Image newImg = img.getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
         L_Visible.setIcon(new ImageIcon(newImg));
@@ -198,11 +209,6 @@ public class Register extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel11)
-                        .addGap(466, 466, 466)
-                        .addComponent(Dato)
-                        .addGap(0, 144, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2)
@@ -222,31 +228,33 @@ public class Register extends javax.swing.JFrame {
                             .addComponent(jLabel8)
                             .addComponent(jLabel9)
                             .addComponent(jLabel10)
-                            .addComponent(BT_CrearUsuario)
                             .addComponent(jLabel5))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(TF_CorreoAlt)
+                            .addComponent(TF_Telefono)
+                            .addComponent(TF_Foto)
                             .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(23, 23, 23)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(TF_CorreoAlt)
-                                    .addComponent(TF_Telefono)
-                                    .addComponent(TF_Foto)
+                                    .addComponent(cFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(23, 23, 23)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(cFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(TF_Password1)
-                                                    .addComponent(TF_Password))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(L_Visible, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(L_Visible1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(BT_Salir)
-                                .addGap(11, 11, 11)))))
+                                            .addComponent(TF_Password1)
+                                            .addComponent(TF_Password))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(L_Visible, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(L_Visible1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel11)
+                        .addGap(466, 466, 466)
+                        .addComponent(Dato)
+                        .addGap(0, 144, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(BT_Salir)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BT_CrearUsuario)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -325,7 +333,7 @@ public class Register extends javax.swing.JFrame {
     private void BT_CrearUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_CrearUsuarioActionPerformed
         var objUsuario = new ManejoUsuario();      
         var fecha = cFecha.getDate();
-        var strError = "";        
+        var strError = "";
         if(!TF_Usuario.getText().equals("") && !TF_Nombre.getText().equals("") && !TF_Apellido.getText().equals("") && !String.valueOf(TF_Password.getPassword()).equals("")
                     && fecha != null && !TF_CorreoAlt.getText().equals("") && !TF_Telefono.getText().equals("") && !TF_Foto.getText().equals("")){
             if(String.valueOf(TF_Password.getPassword()).equals(String.valueOf(TF_Password1.getPassword()))){
@@ -347,8 +355,14 @@ public class Register extends javax.swing.JFrame {
                            actual = objManejo.BuscarLinea(Archivo, user, strError, 0, 9);
                         }
                         var split= actual.split(Pattern.quote("|"));
-                        var login= new Login();
-                        login.setVisible(true);
+                        JFrame ventana;
+                        if(auxAdmin != null) {
+                            ventana = new Menu_Usuario_Administrador(auxAdmin);
+                        }
+                        else{
+                            ventana = new Login();
+                        }
+                        ventana.setVisible(true);
                         this.dispose();
                     }
                     else{
@@ -372,10 +386,18 @@ public class Register extends javax.swing.JFrame {
         int iRespuesta = JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea salir? ", "¿Salir?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (iRespuesta == 0) 
         {            
-            var inicioSesion = new Login();
-            inicioSesion.setVisible(true);
-            dispose();
+            JFrame ventana;
+            if(auxAdmin != null) {
+                ventana = new Menu_Usuario_Administrador(auxAdmin);
+            }
+            else{
+                ventana = new Login();
+            }
+
+            ventana.setVisible(true);
+            this.dispose();
         }
+        
     }//GEN-LAST:event_BT_SalirActionPerformed
 
     private void TF_UsuarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TF_UsuarioKeyTyped

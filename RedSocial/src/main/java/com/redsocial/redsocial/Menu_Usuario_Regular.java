@@ -3,8 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.redsocial.redsocial;
+import com.mycompany.primer_proyecto.Login;
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Pattern;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import management.ManejoArchivo;
 import management.ManejoUsuario;
@@ -15,6 +20,7 @@ import management.ManejoUsuario;
 public class Menu_Usuario_Regular extends javax.swing.JFrame {
 
     Usuario auxUsuario;
+    Usuario auxAdmin;
     /**
      * Creates new form Menu_Usuario_Regular
      * @param usuario datos que desplegar
@@ -22,6 +28,12 @@ public class Menu_Usuario_Regular extends javax.swing.JFrame {
     public Menu_Usuario_Regular(Usuario usuario) {
         initComponents();
         auxUsuario = usuario;
+        lblUsuario.setText(usuario.Nombre);
+    }
+    public Menu_Usuario_Regular(Usuario usuario, Usuario admin) {
+        initComponents();
+        auxUsuario = usuario;
+        auxAdmin =  admin;
         lblUsuario.setText(usuario.Nombre);
     }
 
@@ -50,6 +62,7 @@ public class Menu_Usuario_Regular extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         passFContrasena = new javax.swing.JPasswordField();
         dateCFecha = new com.toedter.calendar.JDateChooser();
+        btnRegresa = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menú");
@@ -90,6 +103,13 @@ public class Menu_Usuario_Regular extends javax.swing.JFrame {
 
         jLabel8.setText("Ingrese su contraseña actual");
 
+        btnRegresa.setText("Regresar");
+        btnRegresa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -115,7 +135,8 @@ public class Menu_Usuario_Regular extends javax.swing.JFrame {
                             .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtFotografia, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE))
+                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
+                            .addComponent(btnRegresa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnActualizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -136,36 +157,37 @@ public class Menu_Usuario_Regular extends javax.swing.JFrame {
                     .addComponent(btnInhabilitar)
                     .addComponent(lblUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(passFContrasenaNueva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(dateCFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(passFContrasenaNueva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(dateCFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtFotografia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20))
+                        .addComponent(txtFotografia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel8)
                         .addGap(12, 12, 12)
                         .addComponent(passFContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnActualizar)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnActualizar)
+                            .addComponent(btnRegresa))))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
@@ -195,11 +217,23 @@ public class Menu_Usuario_Regular extends javax.swing.JFrame {
                     if(String.valueOf(passFContrasena.getPassword()).equals(objUsuario.decrypt(split[3]))){
                         //INGRESO AL SISTEMA
                         var visual =  new Visualizador(auxUsuario);
-                        visual.setVisible(objUsuario.ModificarUsuario(split[0], split[1], split[2], split[3], Integer.parseInt(split[4]), split[5], split[6], split[7], split[8]));
                         
-                        this.dispose();
-                        JOptionPane.showMessageDialog(null, "Ingreso al sistema", "Excelente", 1);
+                        SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+                        String fecha = (dateCFecha != null) ? format.format(dateCFecha.getDate()) : split[5];
+                        String contrasena = !(String.valueOf(passFContrasenaNueva.getPassword())).equals("") ? String.valueOf(passFContrasenaNueva.getPassword()) : split[3];
+                        String correo = !txtCorreo.getText().equals("") ? txtCorreo.getText() : split[6];
+                        String telefono = !txtTelefono.getText().equals("") ? txtTelefono.getText() : split[7];
+                        String fotografia = !txtFotografia.getText().equals("") ? txtFotografia.getText() : split[8];
+
+                        // Llamar a la función con los valores adecuados
+                        if(objUsuario.ModificarUsuario(split[0], split[1], split[2], contrasena, Integer.parseInt(split[4]), fecha, correo, telefono, fotografia))
+                        {
+                            visual.setVisible(true);
+                            this.dispose();
+                        }
+                        else JOptionPane.showMessageDialog(null, "Error actualizando", "FALLO", 1);
                     }
+                    else JOptionPane.showMessageDialog(null, "Contraseña incorrecta", "FALLO", 1);
                 }
                 else{
                     //No se encontró el usuario
@@ -208,7 +242,7 @@ public class Menu_Usuario_Regular extends javax.swing.JFrame {
             }
             else{
                 //Password vacio
-                JOptionPane.showMessageDialog(null, "Contraseña incorrecta", "FALLO", 1);
+                JOptionPane.showMessageDialog(null, "Contraseña vacía", "FALLO", 1);
             }
         }
         else{
@@ -219,8 +253,22 @@ public class Menu_Usuario_Regular extends javax.swing.JFrame {
 
     private void btnInhabilitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInhabilitarActionPerformed
         // TODO add your handling code here:
-        auxUsuario.InhabilitarUsuario();
+        var MA = new ManejoUsuario();
+        MA.ModificarUsuario(auxUsuario.Usuario, auxUsuario.Nombre, auxUsuario.Apellido, auxUsuario.Password, auxUsuario.Rol, auxUsuario.Fecha_nacimiento, auxUsuario.Correo_electronico, auxUsuario.Telefono, auxUsuario.Path_fotografia, 0);
     }//GEN-LAST:event_btnInhabilitarActionPerformed
+
+    private void btnRegresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresaActionPerformed
+        // TODO add your handling code here:
+        JFrame ventana;
+        if(auxAdmin != null) {
+            ventana = new Visualizador(auxUsuario, auxAdmin);
+        }
+        else{
+            ventana = new Visualizador(auxUsuario);
+        }
+        ventana.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnRegresaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -261,6 +309,7 @@ public class Menu_Usuario_Regular extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnInhabilitar;
+    private javax.swing.JButton btnRegresa;
     private com.toedter.calendar.JDateChooser dateCFecha;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

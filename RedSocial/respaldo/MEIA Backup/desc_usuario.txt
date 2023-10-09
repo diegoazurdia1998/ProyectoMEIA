@@ -1,0 +1,8 @@
+nombre simbolico:usuario
+fecha creacion:2023/10/08 20:06:24
+usuario creacion:root
+fecha modificacion:2023/10/09 00:49:41
+usuario modificacion:root
+# registros:5
+registros activos:5
+registros incactivos:0
