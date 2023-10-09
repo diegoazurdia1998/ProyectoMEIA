@@ -345,14 +345,10 @@ public class ManejoArchivo {
             File pathFileUserDesc = new File("C:/MEIA/desc_" + nombre + ".txt");
             File pathFileBita = new File("C:/MEIA/bitacora_" + nombre + ".txt");
             File pathFileBitaDesc = new File("C:/MEIA/desc_bitacora_" + nombre + ".txt");
-            File pathFileTree = new File("C:/MEIA/tree.txt");
-            File pathFileDescTree = new File("C:/MEIA/desc_tree.txt");
             pathFileUser.createNewFile();
             pathFileUserDesc.createNewFile();
             pathFileBita.createNewFile();
             pathFileBitaDesc.createNewFile();
-            pathFileTree.createNewFile();
-            pathFileDescTree.createNewFile();
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             Date date = new Date();
             var writer = new FileWriter(pathFileUserDesc);
@@ -381,39 +377,6 @@ public class ManejoArchivo {
              strError = ex.getMessage();
         }
     }
-    public void CreationFileTree(String nombre)
-    { try {
-            File pathFileUser = new File("C:/MEIA/" + nombre + ".txt");
-            File pathFileUserDesc = new File("C:/MEIA/desc_" + nombre + ".txt");
-  
-            pathFileUser.createNewFile();
-            pathFileUserDesc.createNewFile();         
-            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-            Date date = new Date();
-            var writer = new FileWriter(pathFileUserDesc);
-            writer.write("nombre simbolico:" + nombre + "\n");
-            writer.write("fecha creacion:"+dateFormat.format(date)+"\n");
-            writer.write("usuario creacion:root\n");
-            writer.write("fecha modificacion:"+dateFormat.format(date)+"\n");
-            writer.write("usuario modificacion:root\n");
-            writer.write("# registros:0\n");
-            writer.write("registros activos:0\n");
-            writer.write("registros incactivos:0\n");
-            writer.close();
-            writer.write("fecha creacion:"+dateFormat.format(date)+"\n");
-            writer.write("usuario creacion:root\n");
-            writer.write("fecha modificacion:"+dateFormat.format(date)+"\n");
-            writer.write("usuario modificacion:root\n");
-            writer.write("# registros:0\n");
-            writer.write("registros activos:0\n");
-            writer.write("registros incactivos:0\n");
-            writer.write("max_reorganizacion:3\n");
-            writer.close();
-        } catch (IOException ex) {
-            //TODO: handle exception
-        }
-
-    }
     //method to validate if exists the folder and files of the users and if is not exist create them 
     // return true if the file users do not exist and false if they exists
     public boolean ValidationUserFiles(){
@@ -423,45 +386,13 @@ public class ManejoArchivo {
         File pathFileBita = new File("C:/MEIA/bitacora_usuario.txt");
         File pathFileBitaDesc = new File("C:/MEIA/desc_bitacora_usuario.txt");
         File pathFolderFoto = new File("C:/MEIA/fotografia");
-        File pathFileContact =  new File("C:/MEIA/contactos.txt");
-        File pathFileContactDesc = new File("C:/MEIA/desc_contactos.txt");
-        File pathFileContactBita =  new File("C:/MEIA/bitacora_contactos.txt");
-        File pathFileContactBitaDesc =  new File("C:/MEIA/desc_bitacora_contactos.txt");
-        File pathFileLista = new File("C:/MEIA/lista.txt");
-        File pathFileListaDesc =  new File("C:/MEIA/desc_lista.txt");
-        File pathFileListaBita = new File("C:/MEIA/bitacora_lista.txt");
-        File pathFileListaBitaDesc =  new File("C:/MEIA/desc_bitacora_lista.txt");
-        File pathFileTreeDesc = new File("C:/MEIA/desc_tree.txt");
-        File pathFileListaUsuario = new File("C:/MEIA/Lista_usuario0.txt");
-        File pathFileListaUsuarioDesc = new File("C:/MEIA/desc_Lista_usuario0.txt");
-        File pathFileListaUsuarioInd = new File("C:/MEIA/ind_Lista_usuario.txt");
-        File pathFileListaUsuarioIndDesc = new File("C:/MEIA/desc_ind_Lista_usuario.txt");
-        File pathFileTree = new File("C:/MEIA/tree.txt");
         
         if (pathFolder.exists()){
-            if(!pathFileUser.exists() || !pathFileUserDesc.exists() || !pathFileBita.exists() || !pathFileBitaDesc.exists()
-                    || !pathFileContact.exists() || !pathFileContactDesc.exists() || !pathFileLista.exists() 
-                    || !pathFileListaDesc.exists() || !pathFileContactBita.exists() || !pathFileContactBitaDesc.exists()
-                    || !pathFileListaBita.exists() || !pathFileListaBitaDesc.exists()  
-                    || !pathFileListaUsuarioInd.exists() || !pathFileListaUsuarioIndDesc.exists() 
-                    || !pathFileTreeDesc.exists()){
+            if(!pathFileUser.exists() || !pathFileUserDesc.exists() || !pathFileBita.exists() || !pathFileBitaDesc.exists() ){
                 pathFileUser.delete();
                 pathFileUserDesc.delete();
                 pathFileBita.delete();
                 pathFileBitaDesc.delete();
-                pathFileContact.delete();
-                pathFileContactDesc.delete();
-                pathFileContactBita.delete();
-                pathFileContactBitaDesc.delete();
-                pathFileLista.delete();
-                pathFileListaDesc.delete();
-                pathFileListaBita.delete();
-                pathFileListaBitaDesc.delete();
-                pathFileListaUsuario.delete();
-                pathFileListaUsuarioDesc.delete();
-                pathFileListaUsuarioInd.delete();
-                pathFileListaUsuarioIndDesc.delete();               
-                pathFileTreeDesc.delete();
             }
             else{
                 return false;
@@ -713,7 +644,31 @@ public class ManejoArchivo {
         }
         return "Se ha agregado existosamente el usuario";
     }
-    
+    public void limpiarSalir(String nombre, String user, int lastPos){
+        File Archivo = new File("C:/MEIA/" + nombre + ".txt");
+        File Bita = new File("C:/MEIA/bitacora_" + nombre + ".txt");
+        var strError = "";
+        if(CantidadRegistros(Bita, strError) != 0){
+            if(CantidadRegistros(Archivo, strError) == 0){
+                LimpiarBitacora2(nombre, lastPos);
+                ModifyFilesDescUser(nombre, lastPos, user, true, strError);
+            }
+            else{
+                LimpiarBitacora2(nombre, lastPos);
+                ModifyFilesDescUser(nombre, lastPos, user, false, strError);
+            }
+            ModifyFilesDescBita(nombre, lastPos, user, true, strError);
+        }
+        if(CantidadRegistros(Archivo, strError) != 0){
+            LimpiarPrincipal(nombre, lastPos);
+            if(CantidadRegistros(Archivo, strError) == 0){
+                ModifyFilesDescUser(nombre, lastPos, user, true, strError);
+            }
+            else{
+                ModifyFilesDescUser(nombre, lastPos, user, false, strError);
+            }
+        }
+    }
     public void limpiarSalir(String nombre, int lastPos){
         File Archivo = new File("C:/MEIA/" + nombre + ".txt");
         File Bita = new File("C:/MEIA/bitacora_" + nombre + ".txt");
@@ -740,46 +695,6 @@ public class ManejoArchivo {
         }
     }
     
-    //MANEJO DE ARVHIVO TIPO SECUENCIAL INDEXADO
-    public void creationDescListContact(String nombre){
-        try {
-            File pathFileListaUsuario = new File("C:/MEIA/" + nombre + "0.txt");
-            File pathFileListaUsuarioDesc = new File("C:/MEIA/desc_" + nombre + "0.txt");
-            File pathFileListaUsuarioInd = new File("C:/MEIA/ind_" + nombre + ".txt");
-            File pathFileListaUsuarioIndDesc = new File("C:/MEIA/desc_ind_" + nombre + ".txt");
-            pathFileListaUsuario.createNewFile();
-            pathFileListaUsuarioDesc.createNewFile();
-            pathFileListaUsuarioInd.createNewFile();
-            pathFileListaUsuarioIndDesc.createNewFile();
-            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-            Date date = new Date();
-            var writer = new FileWriter(pathFileListaUsuarioDesc);
-            writer.write("nombre simbolico:" + nombre + "\n");
-            writer.write("fecha creacion:"+dateFormat.format(date)+"\n");
-            writer.write("usuario creacion:root\n");
-            writer.write("fecha modificacion:"+dateFormat.format(date)+"\n");
-            writer.write("usuario modificacion:root\n");
-            writer.write("# registros:0\n");
-            writer.write("registros activos:0\n");
-            writer.write("registros incactivos:0\n");
-            writer.close();
-            writer = new FileWriter(pathFileListaUsuarioIndDesc);
-            writer.write("nombre simbolico:ind_" + nombre + "\n");
-            writer.write("fecha creacion:"+dateFormat.format(date)+"\n");
-            writer.write("usuario creacion:root\n");
-            writer.write("fecha modificacion:"+dateFormat.format(date)+"\n");
-            writer.write("usuario modificacion:root\n");
-            writer.write("# registros:0\n");
-            writer.write("registros activos:0\n");
-            writer.write("registros incactivos:0\n");
-            writer.write("max_reorganizacion:3\n");
-            writer.write("registro inicial:0\n");
-            writer.write("No. bloques:0\n");
-            writer.close();
-        } catch (IOException ex) {
-            
-        }
-    }
     
     public void modifyDescInd(String nombre, int lastPos, boolean creacion, String user){
         try{
@@ -916,37 +831,7 @@ public class ManejoArchivo {
             modNumInicial("Lista_usuario", 0);
         }
     }
-    
-    public ArrayList<String> lecturaCompleta(String nombre, String llave1, String llave2){
-        ArrayList<String> lista = new ArrayList();
-        var strError = "";
-        var Archivo = new File("C:/MEIA/ind_" + nombre + ".txt");
-        var busqueda = getNumInicial(nombre);
-        while(busqueda != 0){
-            var linea = BuscarLinea(Archivo, String.valueOf(busqueda), strError, 0, 7);
-            if(!linea.equals("")){
-                var split = linea.split(Pattern.quote("|"));
-                if(split[3].equals(llave1) && split[4].equals(llave2)){
-                    var numBI = split[1].split(Pattern.quote("."));
-                    var bloque = new File("C:/MEIA/" + nombre + numBI[0] + ".txt");
-                    lista.add(LecturaLinea(bloque, strError, Integer.parseInt(numBI[1]) - 1));
-                }
-                busqueda = Integer.parseInt(split[2]);
-            }
-        }
-        if(busqueda == 0){
-            var linea = BuscarLinea(Archivo, String.valueOf(busqueda), strError, 0, 7);
-            if(!linea.equals("")){
-                var split = linea.split(Pattern.quote("|"));
-                if(split[3].equals(llave1) && split[4].equals(llave2)){
-                    var numBI = split[1].split(Pattern.quote("."));
-                    var bloque = new File("C:/MEIA/" + nombre + numBI[0] + ".txt");
-                    lista.add(LecturaLinea(bloque, strError, Integer.parseInt(numBI[1]) - 1));
-                }
-            }
-        }
-        return lista;
-    }
+
     
     public String buscar(String nombre, String llave1, String llave2, String llave3){
         var strError = "";
@@ -976,42 +861,6 @@ public class ManejoArchivo {
             }
         }
         return "";
-    }
-    
-    public void darBaja(String nombre, String llave1, String llave2, String llave3){
-        var strError = "";
-        var Archivo = new File("C:/MEIA/ind_" + nombre + ".txt");
-        var busqueda = getNumInicial(nombre);
-        while(busqueda != 0){
-            var linea = BuscarLinea(Archivo, String.valueOf(busqueda), strError, 0, 7);
-            var split = linea.split(Pattern.quote("|"));
-            if(split[3].equals(llave1) && split[4].equals(llave2) && split[5].equals(llave3)){
-                var numBI = split[1].split(Pattern.quote("."));
-                
-                var lineaEscribir = split[0] + "|" + split[1] + "|" +  split[2] + "|" +  split[3] + "|" + split[4] + "|" + 
-                split[5] + "|" + split[6] + "|0";
-                Modificar(Archivo, linea, lineaEscribir, strError);
-                
-                var numRegistro = CantidadRegistros(Archivo, strError) + 1;
-                if(numRegistro == 1){
-                    modifyDescInd(nombre, 7, true, llave2);
-                }
-                else{
-                    modifyDescInd(nombre, 7, false, llave2);
-                }
-                
-                var bloque = new File("C:/MEIA/" + nombre + numBI[0] + ".txt");
-                linea = LecturaLinea(bloque, strError, Integer.parseInt(numBI[1]) - 1);
-                split = linea.split(Pattern.quote("|"));
-                lineaEscribir = split[0] + "|" + split[1] + "|" +  split[2] + "|" +  split[3] + "|" + split[4] + "|" + 
-                split[5] + "|0";
-                Modificar(bloque, linea, lineaEscribir, strError);
-                ModifyFilesDescUser(nombre + numBI[0], 6, llave2, false, strError);
-                break;
-            }
-            busqueda = Integer.parseInt(split[2]);
-        }
-        orderIndex(Archivo);
     }
     
     public boolean insertar(String nombre, String strContenido, String strError){
@@ -1073,66 +922,6 @@ public class ManejoArchivo {
             modifyDescInd(nombre, 7, false, user);
         }
         return true;
-    }
-    
-    void limpiarIndice(String nombre, int lastPos){
-        Path destino = Paths.get("C:/MEIA/ind_" + nombre + "_temp.txt");
-        Path origen = Paths.get("C:/MEIA/ind_" + nombre + ".txt");
-        try {
-            Files.copy(origen, destino, StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException ex) {}
-        File inputFile = new File("C:/MEIA/ind_" + nombre + "_temp.txt");
-        File outputFile = new File("C:/MEIA/ind_" + nombre + ".txt");
-        
-        var max = maximoReorganizar2(nombre);
-        var bloques = 0;
-        var bloqueRegistro = 1;
-        var registro = 1;
-        var strError = "";
-        try
-        {
-            PrintWriter writer = new PrintWriter(outputFile);
-            writer.print("");
-            writer.close();
-        }catch(FileNotFoundException ex){
-            strError = ex.getMessage();
-        }
-        try{
-            FileReader fReader = new FileReader(inputFile); 
-            BufferedReader br = new BufferedReader(fReader);
-            try
-            {
-                var Linea = br.readLine();
-                while(Linea != null)
-                {
-                    if(!"".equals(Linea))
-                    {
-                        var split = Linea.split(Pattern.quote("|"));
-                        if(split[lastPos].equals("1")){
-                            var newLine = registro + "|" + bloques + "." + bloqueRegistro + "|0|" + split[3] + "|" 
-                                    + split[4] + "|" + split[5] + "|" + split[6] + "|" + split[7];
-                            Escritura(outputFile, newLine, strError, true);
-                            registro++;
-                            if(bloqueRegistro == max){
-                                bloqueRegistro = 1;
-                                bloques++;
-                            }
-                            else{
-                                bloqueRegistro++;
-                            }
-                        }
-                    }
-                    Linea = br.readLine();
-                }
-                br.close();
-                fReader.close();
-            } catch (IOException ex) {
-            }
-        }catch(FileNotFoundException ex){
-        }
-        inputFile.delete();
-        orderIndex(outputFile);
-        modifyDescInd(nombre, lastPos, false, "root");
     }
     
     void limpiarBloque(String nombre, int lastPos){

@@ -3,11 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.redsocial.redsocial;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.File;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
+import management.ManejoArchivo;
+import management.ManejoUsuario;
 /**
  *
  * @author diego
@@ -178,19 +178,42 @@ public class Menu_Usuario_Regular extends javax.swing.JFrame {
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         // TODO add your handling code here:
-        String validarContrasena = passFContrasena.getSelectedText();
-        if(validarContrasena.equals(auxUsuario.Password))
-        {
-            String fecha = dateCFecha.getDateFormatString();
-            SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
-            Date date;
-            try {
-                date = formato.parse(fecha);
-                auxUsuario.actualizarUsuario(passFContrasenaNueva.getSelectedText(), txtCorreo.getText(), date, Integer.parseInt(txtTelefono.getText()), txtFotografia.getText());
-            } catch (ParseException ex) {
-                Logger.getLogger(Menu_Usuario_Regular.class.getName()).log(Level.SEVERE, null, ex);
+        File Archivo = new File("C:/MEIA/usuario.txt");
+        File Bitacora = new File("C:/MEIA/bitacora_usuario.txt");
+        var strError = "";
+        ManejoArchivo objManejo = new ManejoArchivo();
+        if(objManejo.CantidadRegistros(Archivo, strError) != 0 || objManejo.CantidadRegistros(Bitacora, strError) != 0){
+            if(!String.valueOf(passFContrasena.getPassword()).equals("")){
+                objManejo.RegresarPrincipio(Archivo, strError);
+                var strActual = objManejo.BuscarLinea(Archivo, auxUsuario.Usuario, strError, 0, 9);
+                if(strActual.equals("")){ 
+                    strActual = objManejo.BuscarLinea(Bitacora, auxUsuario.Usuario, strError, 0, 9);
+                }
+                if(!strActual.equals("")){
+                    var split = strActual.split(Pattern.quote("|"));
+                    var objUsuario = new ManejoUsuario();
+                    if(String.valueOf(passFContrasena.getPassword()).equals(objUsuario.decrypt(split[3]))){
+                        //INGRESO AL SISTEMA
+                        var visual =  new Visualizador(auxUsuario);
+                        visual.setVisible(objUsuario.ModificarUsuario(split[0], split[1], split[2], split[3], Integer.parseInt(split[4]), split[5], split[6], split[7], split[8]));
+                        
+                        this.dispose();
+                        JOptionPane.showMessageDialog(null, "Ingreso al sistema", "Excelente", 1);
+                    }
+                }
+                else{
+                    //No se encontró el usuario
+                    JOptionPane.showMessageDialog(null, "No se encontró el usuario", "FALLO", 1);
+                }
             }
-
+            else{
+                //Password vacio
+                JOptionPane.showMessageDialog(null, "Contraseña incorrecta", "FALLO", 1);
+            }
+        }
+        else{
+            //Cantidad de registros en los archivos
+            JOptionPane.showMessageDialog(null, "Registros insuficientes", "FALLO", 1);
         }
     }//GEN-LAST:event_btnActualizarActionPerformed
 
