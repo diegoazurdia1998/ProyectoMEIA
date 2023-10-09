@@ -5,9 +5,11 @@
 package com.mycompany.primer_proyecto;
 
 import java.awt.Image;
+import java.awt.event.KeyEvent;
 import static java.awt.image.ImageObserver.HEIGHT;
 import java.io.File;
 import java.util.regex.Pattern;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import management.Data;
@@ -20,11 +22,15 @@ import management.ManejoUsuario;
  */
 public class Login extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Login
-     */
     public Login() {
-        initComponents();
+        initComponents();    
+        ManejoArchivo objManejo = new ManejoArchivo();
+
+        var strError = "";
+        if(objManejo.ValidationUserFiles()){
+            objManejo.CreationFilesUsers("usuario", strError);
+            objManejo.CreationFilesUsers("contactos", strError);
+        }
     }
 
     /**
@@ -56,6 +62,17 @@ public class Login extends javax.swing.JFrame {
         label1.setText("Usuario");
 
         label2.setText("Contraseña");
+
+        TF_Password.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TF_PasswordMouseClicked(evt);
+            }
+        });
+        TF_Password.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                TF_PasswordKeyPressed(evt);
+            }
+        });
 
         Btn_Registro.setText("Registrar");
         Btn_Registro.addActionListener(new java.awt.event.ActionListener() {
@@ -137,6 +154,7 @@ public class Login extends javax.swing.JFrame {
                     if(String.valueOf(TF_Password.getPassword()).equals(objUsuario.decrypt(split[3]))){
                         //INGRESO AL SISTEMA
                         JOptionPane.showMessageDialog(null, "Ingreso al sistema", "Excelente", 1);
+                        //var Usuario = new Usuario(split[0], split[1]);
                     }
                     else{
                         JOptionPane.showMessageDialog(null, "Contraseña incorrecta", "FALLO", 1);
@@ -222,6 +240,18 @@ public class Login extends javax.swing.JFrame {
             System.exit(0);
         } 
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void TF_PasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TF_PasswordKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyChar() == KeyEvent.VK_TAB) {
+             TF_Password.setText(null);
+        }
+    }//GEN-LAST:event_TF_PasswordKeyPressed
+
+    private void TF_PasswordMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TF_PasswordMouseClicked
+        // TODO add your handling code here:
+         TF_Password.setText(null);
+    }//GEN-LAST:event_TF_PasswordMouseClicked
 
     /**
      * @param args the command line arguments
