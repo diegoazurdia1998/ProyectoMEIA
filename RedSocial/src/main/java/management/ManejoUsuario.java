@@ -150,6 +150,7 @@ public class ManejoUsuario {
           var split = ArchivoUser.split(Pattern.quote("|"));
               var strContenido = user + "|" + nombre + "|" + apellido + "|" + encrypt(pass,2,8) + "|" + rol + "|" + fecha + "|" + correoAlt + "|" + telefono + "|" + foto + "|" + estatus;          
             boolean mensaje = objManejoArchivo.Modificar(Archivo, ArchivoUser, strContenido, strError);
+            
             return mensaje;
          }
          catch(Exception ex){return false;}
@@ -160,7 +161,7 @@ public class ManejoUsuario {
          try
          {
           var split = ArchivoBita.split(Pattern.quote("|"));
-              var strContenido = user + "|" + nombre + "|" + apellido + "|" + pass + "|" + rol + "|" + fecha + "|" + correoAlt + "|" + telefono + "|" + foto + "|" + split[9];          
+              var strContenido = user + "|" + nombre + "|" + apellido + "|" + pass + "|" + rol + "|" + fecha + "|" + correoAlt + "|" + telefono + "|" + foto + "|" + estatus;          
          boolean mensaje = objManejoArchivo.Modificar(Bita, ArchivoBita, strContenido, strError);
          return mensaje;
          }
