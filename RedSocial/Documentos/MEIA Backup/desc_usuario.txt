@@ -1,0 +1,8 @@
+nombre simbolico:usuario
+fecha creacion:2023/10/12 13:41:36
+usuario creacion:pablo
+fecha modificacion:2023/10/12 13:41:36
+usuario modificacion:pablo
+# registros:2
+registros activos:2
+registros incactivos:0

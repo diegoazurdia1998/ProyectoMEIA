@@ -1,0 +1,9 @@
+nombre simbolico:bitacora_usuario
+fecha creacion:2023/10/12 13:41:36
+usuario creacion:pablo
+fecha modificacion:2023/10/12 13:41:36
+usuario modificacion:pablo
+# registros:1
+registros activos:1
+registros inactivos:0
+max_reorganizacion:3

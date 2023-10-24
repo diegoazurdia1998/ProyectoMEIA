@@ -308,7 +308,12 @@ Usuario auxUsuario;
         Data.getData().setUser(auxUsuario.Usuario);
         BackupManagement backup = new BackupManagement();
         backup.DoBackup(txtBackup.getText());
-        backup.CreateFiles(txtBackup.getText());
+        if(backup.CheckFilesBackup()){
+            backup.CreateFiles(txtBackup.getText());
+        }
+        else{
+            backup.ModificateFilesBackup(txtBackup.getText());
+        }
         JOptionPane.showMessageDialog(null, "Archivos respardados en: " + txtBackup.getText(), "EXITO", 1);
     }//GEN-LAST:event_btnRespaldarActionPerformed
 
