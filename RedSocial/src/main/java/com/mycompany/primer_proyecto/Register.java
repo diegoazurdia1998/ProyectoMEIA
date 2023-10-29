@@ -174,6 +174,11 @@ Usuario auxAdmin;
             }
         });
 
+        TF_Password.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TF_PasswordActionPerformed(evt);
+            }
+        });
         TF_Password.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 TF_PasswordKeyTyped(evt);
@@ -337,36 +342,48 @@ Usuario auxAdmin;
         if(!TF_Usuario.getText().equals("") && !TF_Nombre.getText().equals("") && !TF_Apellido.getText().equals("") && !String.valueOf(TF_Password.getPassword()).equals("")
                     && fecha != null && !TF_CorreoAlt.getText().equals("") && !TF_Telefono.getText().equals("") && !TF_Foto.getText().equals("")){
             if(String.valueOf(TF_Password.getPassword()).equals(String.valueOf(TF_Password1.getPassword()))){
+                String regex = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
+                Pattern pattern = Pattern.compile(regex);
+                Matcher matcher = pattern.matcher(TF_CorreoAlt.getText());
                 if(L_Nivel.getText().equals("Nivel alto")){
-                    var dataUser = Data.getData();
-                    var rol = dataUser.getRole();
-                    strError = objUsuario.crearUsuario(TF_Usuario.getText(), TF_Nombre.getText(), TF_Apellido.getText(), String.valueOf(TF_Password.getPassword()), 
-                            Integer.parseInt(rol), fecha, TF_CorreoAlt.getText(), TF_Telefono.getText(), TF_Foto.getText(), 1);
-                    if(!strError.equals("Usuario ya existe")){
-                        //INGRESO AL SISTEMA
-                        JOptionPane.showMessageDialog(null, "Bienvenido", "EXITO", 1);
-                        var objManejo = new ManejoArchivo();
-                        Data.getData().setUser(TF_Usuario.getText());
-                        var Archivo = new File("C:/MEIA/usuario.txt");
-                        var user = TF_Usuario.getText();
-                        var actual = objManejo.BuscarLinea(Archivo, user, strError, 0, 9);
-                        if(actual.equals("")){
-                           Archivo = new File("C:/MEIA/bitacora_usuario.txt");
-                           actual = objManejo.BuscarLinea(Archivo, user, strError, 0, 9);
-                        }
-                        var split= actual.split(Pattern.quote("|"));
-                        JFrame ventana;
-                        if(auxAdmin != null) {
-                            ventana = new Menu_Usuario_Administrador(auxAdmin);
+                    if(matcher.matches())
+                    {
+                        var dataUser = Data.getData();
+                        var rol = dataUser.getRole();
+
+                        //Se crea el usuario
+                        strError = objUsuario.crearUsuario(TF_Usuario.getText(), TF_Nombre.getText(), TF_Apellido.getText(), String.valueOf(TF_Password.getPassword()), 
+                                Integer.parseInt(rol), fecha, TF_CorreoAlt.getText(), TF_Telefono.getText(), TF_Foto.getText(), 1);
+
+                        if(!strError.equals("Usuario ya existe")){
+                            //INGRESO AL SISTEMA
+                            JOptionPane.showMessageDialog(null, "Bienvenido", "EXITO", 1);
+                            var objManejo = new ManejoArchivo();
+                            Data.getData().setUser(TF_Usuario.getText());
+                            var Archivo = new File("C:/MEIA/usuario.txt");
+                            var user = TF_Usuario.getText();
+                            var actual = objManejo.BuscarLinea(Archivo, user, strError, 0, 9);
+                            if(actual.equals("")){
+                               Archivo = new File("C:/MEIA/bitacora_usuario.txt");
+                               actual = objManejo.BuscarLinea(Archivo, user, strError, 0, 9);
+                            }
+                            var split= actual.split(Pattern.quote("|"));
+                            JFrame ventana;
+                            if(auxAdmin != null) {
+                                ventana = new Menu_Usuario_Administrador(auxAdmin);
+                            }
+                            else{
+                                ventana = new Login();
+                            }
+                            ventana.setVisible(true);
+                            this.dispose();
                         }
                         else{
-                            ventana = new Login();
+                            JOptionPane.showMessageDialog(null, "El usuario ya existe", "ERROR", 1);
                         }
-                        ventana.setVisible(true);
-                        this.dispose();
                     }
                     else{
-                        JOptionPane.showMessageDialog(null, "El usuario ya existe", "ERROR", 1);
+                        JOptionPane.showMessageDialog(null, "Formato de correo no válido", "ERROR", 1);
                     }
                 }
                 else{
@@ -425,9 +442,11 @@ Usuario auxAdmin;
     }//GEN-LAST:event_TF_ApellidoKeyTyped
 
     private void TF_CorreoAltKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TF_CorreoAltKeyTyped
+        
         if(TF_CorreoAlt.getText().length()== 40){
             evt.consume();
         }
+        
     }//GEN-LAST:event_TF_CorreoAltKeyTyped
 
     private void TF_TelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TF_TelefonoKeyTyped
@@ -540,6 +559,10 @@ Usuario auxAdmin;
     private void TF_Password1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TF_Password1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_TF_Password1ActionPerformed
+
+    private void TF_PasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TF_PasswordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TF_PasswordActionPerformed
 
     /**
      * @param args the command line arguments

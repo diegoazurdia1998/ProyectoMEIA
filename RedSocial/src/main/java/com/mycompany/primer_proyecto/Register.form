@@ -316,6 +316,7 @@
     </Component>
     <Component class="javax.swing.JPasswordField" name="TF_Password">
       <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="TF_PasswordActionPerformed"/>
         <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="TF_PasswordKeyTyped"/>
       </Events>
     </Component>

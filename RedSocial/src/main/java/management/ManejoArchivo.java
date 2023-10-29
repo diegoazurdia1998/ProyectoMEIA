@@ -386,13 +386,17 @@ public class ManejoArchivo {
         File pathFileBita = new File("C:/MEIA/bitacora_usuario.txt");
         File pathFileBitaDesc = new File("C:/MEIA/desc_bitacora_usuario.txt");
         File pathFolderFoto = new File("C:/MEIA/fotografia");
+        File pathFileListaUsuarioInd = new File("C:/MEIA/ind_usuario.txt");
+        File pathFileListaUsuarioIndDesc = new File("C:/MEIA/desc_ind_usuario.txt");
         
         if (pathFolder.exists()){
-            if(!pathFileUser.exists() || !pathFileUserDesc.exists() || !pathFileBita.exists() || !pathFileBitaDesc.exists() ){
+            if(!pathFileUser.exists() || !pathFileUserDesc.exists() || !pathFileBita.exists() || !pathFileBitaDesc.exists() || !pathFileListaUsuarioInd.exists() || !pathFileListaUsuarioIndDesc.exists()){
                 pathFileUser.delete();
                 pathFileUserDesc.delete();
                 pathFileBita.delete();
                 pathFileBitaDesc.delete();
+                pathFileListaUsuarioInd.delete();
+                pathFileListaUsuarioIndDesc.delete(); 
             }
             else{
                 return false;
@@ -604,46 +608,7 @@ public class ManejoArchivo {
              strError = ex.getMessage();
         }
     }
-    
-    public String insertarLinea (String linea, String nombre, String llave1, String llave2, int lastPos){
-        var objManejoArchivo = new ManejoArchivo();
-        var dataUser = Data.getData();
-        var user = dataUser.getUser();
-        File Archivo = new File("C:/MEIA/"+ nombre +".txt");
-        File Bita = new File("C:/MEIA/bitacora_" + nombre + ".txt");
-        var strError = "";
-        var ArchivoUser = objManejoArchivo.BuscarLinea2(Archivo, llave1, llave2, strError, 0, lastPos);       //Cambiar
-        var ArchivoBita = objManejoArchivo.BuscarLinea2(Bita, llave1, llave2, strError, 0, lastPos);         //Cambiar
-        if(!ArchivoUser.equals("") || !ArchivoBita.equals("")){
-            return "Registro ya existe";
-        }
-        else{
-            try
-            {
-                if(objManejoArchivo.CantidadRegistros(Bita, strError) >= objManejoArchivo.maximoReorganizar(nombre)){
-                    if(objManejoArchivo.CantidadRegistros(Archivo, strError) == 0){
-                        objManejoArchivo.LimpiarBitacora2(nombre, lastPos);                               //Cambiar
-                        objManejoArchivo.ModifyFilesDescUser(nombre, lastPos, user, true, strError);
-                    }
-                    else{
-                        objManejoArchivo.LimpiarBitacora2(nombre, lastPos);                               //Cambiar
-                        objManejoArchivo.ModifyFilesDescUser(nombre, lastPos, user, false, strError);
-                    }
-                }
-                if(objManejoArchivo.CantidadRegistros(Bita, strError) == 0){
-                    objManejoArchivo.orderInsert2(Bita, linea, strError);                        //Cambiar
-                    objManejoArchivo.ModifyFilesDescBita(nombre, lastPos, user, true, strError);
-                }
-                else{
-                    objManejoArchivo.orderInsert2(Bita, linea, strError);                        //Cambiar
-                    objManejoArchivo.ModifyFilesDescBita(nombre, lastPos, user, false, strError);
-                }
-            }catch(Exception ex){
-                return ex.getMessage();
-            }
-        }
-        return "Se ha agregado existosamente el usuario";
-    }
+
     public void limpiarSalir(String nombre, String user, int lastPos){
         File Archivo = new File("C:/MEIA/" + nombre + ".txt");
         File Bita = new File("C:/MEIA/bitacora_" + nombre + ".txt");
@@ -694,54 +659,129 @@ public class ManejoArchivo {
             }
         }
     }
-    public void modifyDescInd(String nombre, int lastPos, boolean creacion, String user){
-        try{
-            var strError = "";
-            File pathFileListaUsuarioIndDesc = new File("C:/MEIA/desc_ind_" + nombre + ".txt");
-            var cant = maximoReorganizar2(nombre);
-            var fechaCreacion = LecturaLinea(pathFileListaUsuarioIndDesc, strError, 1);
-            var split = fechaCreacion.split(Pattern.quote(":"));
-            fechaCreacion = split[1] +":"+ split[2]+":"+ split[3];
-            
-            var userCreacion = LecturaLinea(pathFileListaUsuarioIndDesc, strError, 2);
-            split = userCreacion.split(Pattern.quote(":"));
-            userCreacion = split[1];
-            
-            var numInicial = getNumInicial(nombre);
-            var numBloques = getNumBloques(nombre);
-            
-            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-            Date date = new Date();
-            var writer = new FileWriter(pathFileListaUsuarioIndDesc);
-            writer.write("nombre simbolico:ind_" + nombre + "\n");
-            if(creacion){
-                writer.write("fecha creacion:"+dateFormat.format(date)+"\n");
-                writer.write("usuario creacion:"+user+"\n");
-            }
-            else{
-                writer.write("fecha creacion:"+fechaCreacion+"\n");
-                writer.write("usuario creacion:"+userCreacion+"\n");
-            }
-            writer.write("fecha modificacion:"+dateFormat.format(date)+"\n");
-            writer.write("usuario modificacion:" + user + "\n");
-            writer.write("# registros:"+CantidadRegistros(new File("C:/MEIA/ind_" + nombre + ".txt"), strError)+"\n");
-            writer.write("registros activos:"+cantVigente(new File("C:/MEIA/ind_" + nombre + ".txt"), strError, lastPos, 1)+"\n");
-            writer.write("registros inactivos:"+cantVigente(new File("C:/MEIA/ind_" + nombre + ".txt"), strError, lastPos, 0)+"\n");
-            writer.write("max_reorganizacion:"+cant+"\n");
-            writer.write("registro inicial:" + numInicial + "\n");
-            writer.write("No. bloques:" + numBloques + "\n");
-            writer.close();
-        }catch(IOException ex){
-            
-        }
+   public void creationDescInd(String nombre){
+    try {
+        // Crear archivos en la ruta especificada
+        File pathFileListaUsuario = new File("C:/MEIA/" + nombre + "0.txt");
+        File pathFileListaUsuarioDesc = new File("C:/MEIA/desc_" + nombre + "0.txt");
+        File pathFileListaUsuarioInd = new File("C:/MEIA/ind_" + nombre + ".txt");
+        File pathFileListaUsuarioIndDesc = new File("C:/MEIA/desc_ind_" + nombre + ".txt");
+
+        // Crear los archivos si no existen
+        pathFileListaUsuario.createNewFile();
+        pathFileListaUsuarioDesc.createNewFile();
+        pathFileListaUsuarioInd.createNewFile();
+        pathFileListaUsuarioIndDesc.createNewFile();
+
+        // Formato de fecha y hora
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+
+        // Escribir en el archivo de descripción del usuario
+        var writer = new FileWriter(pathFileListaUsuarioDesc);
+        writer.write("nombre simbolico:" + nombre + "0" + "\n");
+        writer.write("fecha creacion:"+dateFormat.format(date)+"\n");
+        writer.write("usuario creacion:root\n");
+        writer.write("fecha modificacion:"+dateFormat.format(date)+"\n");
+        writer.write("usuario modificacion:root\n");
+        writer.write("# registros:0\n");
+        writer.write("registros activos:0\n");
+        writer.write("registros incactivos:0\n");
+        writer.close();
+
+        // Escribir en el archivo de descripción del índice
+        writer = new FileWriter(pathFileListaUsuarioIndDesc);
+        writer.write("nombre simbolico:ind_" + nombre + "\n");
+        writer.write("fecha creacion:"+dateFormat.format(date)+"\n");
+        writer.write("usuario creacion:root\n");
+        writer.write("fecha modificacion:"+dateFormat.format(date)+"\n");
+        writer.write("usuario modificacion:root\n");
+        writer.write("# registros:0\n");
+        writer.write("registros activos:0\n");
+        writer.write("registros incactivos:0\n");
+        writer.write("max_reorganizacion:3\n");  // Máximo número de reorganizaciones permitidas
+        writer.write("registro inicial:0\n");  // Registro inicial en el índice
+        writer.write("No. bloques:0\n");  // Número de bloques en el índice
+        writer.close();
+    } catch (IOException ex) {
+        
     }
+}
+/**
+ * Modifica el descriptor de los archivos indecxados
+ * @param nombre
+ * @param lastPos
+ * @param creacion
+ * @param user 
+ */
+    public void modifyDescInd(String nombre, int lastPos, boolean creacion, String user){
+    try{
+        var strError = "";
+        // Crear un archivo en la ruta especificada
+        File pathFileListaUsuarioIndDesc = new File("C:/MEIA/desc_ind_" + nombre + ".txt");
+
+        // Obtener ciertos valores del archivo existente
+        var cant = maximoReorganizar2(nombre);
+        var fechaCreacion = LecturaLinea(pathFileListaUsuarioIndDesc, strError, 1);
+        var split = fechaCreacion.split(Pattern.quote(":"));
+        fechaCreacion = split[1] +":"+ split[2]+":"+ split[3];
+        
+        var userCreacion = LecturaLinea(pathFileListaUsuarioIndDesc, strError, 2);
+        split = userCreacion.split(Pattern.quote(":"));
+        userCreacion = split[1];
+        
+        var numInicial = getNumInicial(nombre);
+        var numBloques = getNumBloques(nombre);
+        
+        // Formato de fecha y hora
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+
+        // Escribir en el archivo de descripción del índice
+        var writer = new FileWriter(pathFileListaUsuarioIndDesc);
+        writer.write("nombre simbolico:ind_" + nombre + "\n");
+        
+        if(creacion){
+            // Si es una creación, se usa la fecha y el usuario actuales
+            writer.write("fecha creacion:"+dateFormat.format(date)+"\n");
+            writer.write("usuario creacion:"+user+"\n");
+        }
+        else{
+            // Si no es una creación, se usan los valores existentes
+            writer.write("fecha creacion:"+fechaCreacion+"\n");
+            writer.write("usuario creacion:"+userCreacion+"\n");
+        }
+        
+        // Escribir el resto de la información en el archivo
+        writer.write("fecha modificacion:"+dateFormat.format(date)+"\n");
+        writer.write("usuario modificacion:" + user + "\n");
+        writer.write("# registros:"+CantidadRegistros(new File("C:/MEIA/ind_" + nombre + ".txt"), strError)+"\n");
+        writer.write("registros activos:"+cantVigente(new File("C:/MEIA/ind_" + nombre + ".txt"), strError, lastPos, 1)+"\n");
+        writer.write("registros inactivos:"+cantVigente(new File("C:/MEIA/ind_" + nombre + ".txt"), strError, lastPos, 0)+"\n");
+        writer.write("max_reorganizacion:"+cant+"\n");
+        writer.write("registro inicial:" + numInicial + "\n");
+        writer.write("No. bloques:" + numBloques + "\n");
+        
+        // Cerrar el escritor
+        writer.close();
+    }catch(IOException ex){
+        
+    }
+}
+
     
     public int maximoReorganizar2(String nombre){
-        File desc = new File("C:/MEIA/desc_ind_" + nombre + ".txt");
         var strError = "";
-        var split = LecturaLinea(desc, strError, 8).split(Pattern.quote(":"));
-        return Integer.parseInt(split[1]);
-    }
+    // Crear un archivo en la ruta especificada
+    File desc = new File("C:/MEIA/desc_ind_" + nombre + ".txt");
+
+    // Leer una línea específica del archivo
+    var split = LecturaLinea(desc, strError, 8).split(Pattern.quote(":"));
+
+    // Devolver el valor como un entero
+    return Integer.parseInt(split[1]);
+}
+
     
     public int getNumInicial(String nombre){
         File desc = new File("C:/MEIA/desc_ind_" + nombre + ".txt");
@@ -886,7 +926,8 @@ public class ManejoArchivo {
         Archivo = new File("C:/MEIA/ind_" + nombre + ".txt");
         var numRegistro = CantidadRegistros(Archivo, strError) + 1;
         var split = strContenido.split(Pattern.quote("|"));
-        var linea = numRegistro + "|" + numBloque + "." + indice + "|0|" + split[0] + "|" + split[1]
+        //linea: 0 Registro|1 Posicion|2 Indice|3 Usuario|4 Nombre|5 Apellido|6 Rol|7 Estatus
+        var linea = numRegistro + "|" + numBloque + "." + indice + "|" + split[0] + "|" + split[1]
                 + "|" + split[2] + "|" + split[4] + "|1";
         Escritura(Archivo,  linea, strError, true);
         orderIndex(Archivo);
@@ -1015,12 +1056,16 @@ public class ManejoArchivo {
         
         if(sorted.size() != 0){
             for(Map.Entry<String,Integer> entry : sorted.entrySet()){ 
-                modNumInicial("Lista_usuario", entry.getValue());
+                modNumInicial("usuario", entry.getValue());
                 break;
             }
         }
         else{
-            modNumInicial("Lista_usuario", 0);
+            modNumInicial("usuario", 0);
         }
+    }
+    
+    public void limpiarBI(String nombre){
+        limpiarBloque("usuario", 6);
     }
 }

@@ -254,7 +254,8 @@ public class Menu_Usuario_Regular extends javax.swing.JFrame {
     private void btnInhabilitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInhabilitarActionPerformed
         // TODO add your handling code here:
         var MA = new ManejoUsuario();
-        MA.ModificarUsuario(auxUsuario.Usuario, auxUsuario.Nombre, auxUsuario.Apellido, auxUsuario.Password, auxUsuario.Rol, auxUsuario.Fecha_nacimiento, auxUsuario.Correo_electronico, auxUsuario.Telefono, auxUsuario.Path_fotografia, 0);
+        MA.Inhabilitar(auxUsuario.Usuario, auxUsuario.Nombre, auxUsuario.Apellido, auxUsuario.Rol);
+        JOptionPane.showMessageDialog(null, "Se inhabilitó correctamente a " + auxUsuario.Usuario, "Inhabilitar", 1);
     }//GEN-LAST:event_btnInhabilitarActionPerformed
 
     private void btnRegresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresaActionPerformed

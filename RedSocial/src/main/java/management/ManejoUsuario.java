@@ -112,11 +112,13 @@ public class ManejoUsuario {
                     if(objManejoArchivo.CantidadRegistros(Archivo, strError) == 0){
                         objManejoArchivo.LimpiarBitacora("usuario");
                         objManejoArchivo.ModifyFilesDescUser("usuario", 9, user, true, strError);
+                        
                     }
                     else{
                         objManejoArchivo.LimpiarBitacora("usuario");
                         objManejoArchivo.ModifyFilesDescUser("usuario", 9, user, false, strError);
                     }
+                    
                 }
                 if(objManejoArchivo.CantidadRegistros(Bita, strError) == 0){
                     objManejoArchivo.orderInsert(Bita, nuevoUsuario, strError);
@@ -126,6 +128,8 @@ public class ManejoUsuario {
                     objManejoArchivo.orderInsert(Bita, nuevoUsuario, strError);
                     objManejoArchivo.ModifyFilesDescBita("usuario", 9, user, false, strError);
                 }
+                objManejoArchivo.insertar("usuario", nuevoUsuario, strError);
+                
             }catch(Exception ex){
                 return ex.getMessage();
             }
@@ -133,7 +137,7 @@ public class ManejoUsuario {
         return "Se ha agregado existosamente el usuario";
     }
 
-    public boolean ModificarUsuario(String user, String nombre, String apellido, String pass,int rol,String fecha , String correoAlt, String telefono, String foto, int estatus)
+    public boolean Inhabilitar(String user, String nombre, String apellido,int rol)
     {
       // volver a sobreescribir los datos
         var objManejoArchivo = new ManejoArchivo();
@@ -147,10 +151,10 @@ public class ManejoUsuario {
          //  Usuario ya existe y se sobreescribe                        
          try
          {
-          var split = ArchivoUser.split(Pattern.quote("|"));
-              var strContenido = user + "|" + nombre + "|" + apellido + "|" + encrypt(pass,2,8) + "|" + rol + "|" + fecha + "|" + correoAlt + "|" + telefono + "|" + foto + "|" + estatus;          
+            var split = ArchivoUser.split(Pattern.quote("|"));
+            var strContenido = user + "|" + nombre + "|" + apellido + "|" + split[3] + "|" + rol + "|" + split[5] + "|" + split[6] + "|" + split[7] + "|" + split[8] + "|" + "0";          
             boolean mensaje = objManejoArchivo.Modificar(Archivo, ArchivoUser, strContenido, strError);
-            
+            objManejoArchivo.darBaja("usuario", user, nombre, apellido);
             return mensaje;
          }
          catch(Exception ex){return false;}
@@ -160,10 +164,10 @@ public class ManejoUsuario {
         {
          try
          {
-          var split = ArchivoBita.split(Pattern.quote("|"));
-              var strContenido = user + "|" + nombre + "|" + apellido + "|" + pass + "|" + rol + "|" + fecha + "|" + correoAlt + "|" + telefono + "|" + foto + "|" + estatus;          
-         boolean mensaje = objManejoArchivo.Modificar(Bita, ArchivoBita, strContenido, strError);
-         return mensaje;
+            var split = ArchivoBita.split(Pattern.quote("|"));
+            var strContenido = user + "|" + nombre + "|" + apellido + "|" + split[3] + "|" + rol + "|" + split[5] + "|" + split[6] + "|" + split[7] + "|" + split[8] + "|" + "0";         
+            boolean mensaje = objManejoArchivo.Modificar(Bita, ArchivoBita, strContenido, strError);
+            return mensaje;
          }
          catch(Exception ex){  return false;}
         }
