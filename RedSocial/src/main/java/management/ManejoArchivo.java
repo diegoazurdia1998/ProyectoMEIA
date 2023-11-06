@@ -415,6 +415,23 @@ public class ManejoArchivo {
         var split = LecturaLinea(Bita, strError, 8).split(Pattern.quote(":"));
         return Integer.parseInt(split[1]);
     }
+    public void stackInsert(File Archivo, String strContenido, String strError){
+        RegresarPrincipio(Archivo, strError);
+        var list = LecturaCompleta(Archivo, strError);
+        try
+        {
+            PrintWriter writer = new PrintWriter(Archivo);
+            writer.print("");
+            writer.close();
+        }catch(FileNotFoundException ex){
+            strError = ex.getMessage();
+        }
+        list.add(0, strContenido); // Inserta al principio de la lista
+        for(int i = 0; i < list.size(); i++){
+            Escritura(Archivo, list.get(i), strError, true);
+    }
+}
+
     //Insertar ordenado
     public void orderInsert(File Archivo, String strContenido, String strError){
         RegresarPrincipio(Archivo, strError);
@@ -912,23 +929,23 @@ public class ManejoArchivo {
                 writer.write("registros incactivos:0\n");
                 writer.close();
             } catch (IOException ex) {
-
+                strError = ex.getMessage();
             }
             Escritura(Archivo, indice + "|" + strContenido, strError, true);
-            ModifyFilesDescUser(nombre + numBloque, 6, user, true, strError);
+            ModifyFilesDescUser(nombre + numBloque, 10, user, true, strError);
 
         }
         else{
             Escritura(Archivo, indice + "|" + strContenido, strError, true);
-            ModifyFilesDescUser(nombre + numBloque, 6, user, false, strError);
+            ModifyFilesDescUser(nombre + numBloque, 10, user, false, strError);
         }
 
         Archivo = new File("C:/MEIA/ind_" + nombre + ".txt");
         var numRegistro = CantidadRegistros(Archivo, strError) + 1;
         var split = strContenido.split(Pattern.quote("|"));
-        //linea: 0 Registro|1 Posicion|2 Indice|3 Usuario|4 Nombre|5 Apellido|6 Rol|7 Estatus
-        var linea = numRegistro + "|" + numBloque + "." + indice + "|" + split[0] + "|" + split[1]
-                + "|" + split[2] + "|" + split[4] + "|1";
+        //linea: 0 Registro|1 Posicion|2 Siguiente|3 Usuario|4 Nombre|5 Apellido|6 Rol|7 Estatus
+        var linea = numRegistro + "|" + numBloque + "." + indice + "|"+ "0|" + split[0] + "|" + split[1]
+                + "|" + split[2] + "|" + split[4] +"|1";
         Escritura(Archivo,  linea, strError, true);
         orderIndex(Archivo);
         if(numRegistro == 1){

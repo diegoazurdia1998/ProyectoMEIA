@@ -121,11 +121,11 @@ public class ManejoUsuario {
                     
                 }
                 if(objManejoArchivo.CantidadRegistros(Bita, strError) == 0){
-                    objManejoArchivo.orderInsert(Bita, nuevoUsuario, strError);
+                    objManejoArchivo.stackInsert(Bita, nuevoUsuario, strError);
                     objManejoArchivo.ModifyFilesDescBita("usuario", 9, user, true, strError);
                 }
                 else{
-                    objManejoArchivo.orderInsert(Bita, nuevoUsuario, strError);
+                    objManejoArchivo.stackInsert(Bita, nuevoUsuario, strError);
                     objManejoArchivo.ModifyFilesDescBita("usuario", 9, user, false, strError);
                 }
                 objManejoArchivo.insertar("usuario", nuevoUsuario, strError);
