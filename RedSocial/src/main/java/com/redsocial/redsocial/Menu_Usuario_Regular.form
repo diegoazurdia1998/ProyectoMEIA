@@ -28,12 +28,12 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="lblUsuario" pref="206" max="32767" attributes="0"/>
+                      <Component id="lblUsuario" pref="513" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnInhabilitar" min="-2" pref="202" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="jLabel5" pref="206" max="32767" attributes="0"/>
+                      <Component id="jLabel5" pref="513" max="32767" attributes="0"/>
                       <EmptySpace min="208" pref="208" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">

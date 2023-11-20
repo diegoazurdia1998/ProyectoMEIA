@@ -10,6 +10,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Pattern;
+import com.redsocial.redsocial.Usuario;
 
 public class ManejoUsuario {
   String cifrado (String input, int key) {
@@ -171,6 +172,7 @@ public class ManejoUsuario {
          }
          catch(Exception ex){  return false;}
         }
+        objManejoArchivo.darBaja("usuario", user, nombre, apellido);
         return true;
     }
     public boolean ModificarUsuario(String user, String nombre, String apellido, String pass,int rol,String fecha , String correoAlt, String telefono, String foto)
@@ -208,7 +210,41 @@ public class ManejoUsuario {
         }
         return true;
     } 
-    
+    public boolean ModificarUsuario(Usuario _usuario)
+    {
+      // volver a sobreescribir los datos
+        var objManejoArchivo = new ManejoArchivo();
+        File Archivo = new File("C:/MEIA/usuario.txt");
+        File Bita = new File("C:/MEIA/bitacora_usuario.txt");
+        var strError = "";
+        //strContenidoBusqueda
+        var ArchivoUser = objManejoArchivo.BuscarLinea(Archivo, _usuario.Usuario, strError, 0, 9);
+        var ArchivoBita = objManejoArchivo.BuscarLinea(Bita, _usuario.Usuario, strError, 0, 9);
+        if(!ArchivoUser.equals("") ){
+         //  Usuario ya existe y se sobreescribe                        
+         try
+         {
+          var split = ArchivoUser.split(Pattern.quote("|"));
+              var strContenido = _usuario.Usuario + "|" + _usuario.Nombre + "|" + _usuario.Apellido + "|" + encrypt(_usuario.Password,2,8) + "|" + _usuario.Rol + "|" + _usuario.Fecha_nacimiento + "|" + _usuario.Correo_electronico + "|" + _usuario.Telefono + "|" + _usuario.Path_fotografia + "|" + _usuario.Estatus;          
+            boolean mensaje = objManejoArchivo.Modificar(Archivo, ArchivoUser, strContenido, strError);
+            return mensaje;
+         }
+         catch(Exception ex){return false;}
+         
+        }
+        else if(!ArchivoBita.equals(""))
+        {
+         try
+         {
+          var split = ArchivoBita.split(Pattern.quote("|"));
+              var strContenido = _usuario.Usuario + "|" + _usuario.Nombre + "|" + _usuario.Apellido + "|" + encrypt(_usuario.Password,2,8) + "|" + _usuario.Rol + "|" + _usuario.Fecha_nacimiento + "|" + _usuario.Correo_electronico + "|" + _usuario.Telefono + "|" + _usuario.Path_fotografia + "|" + _usuario.Estatus;          
+         boolean mensaje = objManejoArchivo.Modificar(Bita, ArchivoBita, strContenido, strError);
+         return mensaje;
+         }
+         catch(Exception ex){  return false;}
+        }
+        return true;
+    }
     //function to read te file des bitacora usert
     // return an array that have de lines of the file 
     public String[] ReadFile(){

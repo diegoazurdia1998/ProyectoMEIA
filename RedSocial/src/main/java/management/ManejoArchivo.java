@@ -875,19 +875,63 @@ public class ManejoArchivo {
                 
                 var numRegistro = CantidadRegistros(Archivo, strError) + 1;
                 if(numRegistro == 1){
-                    modifyDescInd(nombre, 7, true, llave2);
+                    modifyDescInd(nombre, 7, true, llave1);
                 }
                 else{
-                    modifyDescInd(nombre, 7, false, llave2);
+                    modifyDescInd(nombre, 7, false, llave1);
                 }
                 
                 var bloque = new File("C:/MEIA/" + nombre + numBI[0] + ".txt");
                 linea = LecturaLinea(bloque, strError, Integer.parseInt(numBI[1]) - 1);
                 split = linea.split(Pattern.quote("|"));
                 lineaEscribir = split[0] + "|" + split[1] + "|" +  split[2] + "|" +  split[3] + "|" + split[4] + "|" + 
-                split[5] + "|0";
+                split[5]+ "|" + split[6] + "|" + split[7] + "|" + split[8]+ "|" + split[9] +  "|0";
                 Modificar(bloque, linea, lineaEscribir, strError);
-                ModifyFilesDescUser(nombre + numBI[0], 6, llave2, false, strError);
+                ModifyFilesDescUser(nombre + numBI[0], 10, llave1, false, strError);
+                break;
+            }
+            busqueda = Integer.parseInt(split[2]);
+        }
+        orderIndex(Archivo);
+    }
+    
+    public void ModificarBloque(String nombre, String llave1, String llave2, String llave3, String contenidoModificado, int parametroModificar){
+        var strError = "";
+        //
+        var Archivo = new File("C:/MEIA/ind_" + nombre + ".txt");
+        var busqueda = getNumInicial(nombre);
+        while(busqueda != 0){ //mmientras el indice no sea 0
+            var linea = BuscarLinea(Archivo, String.valueOf(busqueda), strError, 0, 7); //busca al usuario en el indice
+            var split = linea.split(Pattern.quote("|"));//separa la linea del usuario en partes
+            //Verificausuario nombre y apelllido
+            if(split[3].equals(llave1) && split[4].equals(llave2) && split[5].equals(llave3)){
+                //Arreglo de la Posición
+                var numBI = split[1].split(Pattern.quote("."));
+                
+                var numRegistro = CantidadRegistros(Archivo, strError) + 1;
+                if(numRegistro == 1){
+                    modifyDescInd(nombre, 7, true, llave1);
+                }
+                else{
+                    modifyDescInd(nombre, 7, false, llave1);
+                }
+                //
+                var bloque = new File("C:/MEIA/" + nombre + numBI[0] + ".txt");
+                linea = LecturaLinea(bloque, strError, Integer.parseInt(numBI[1]) - 1);
+                split = linea.split(Pattern.quote("|"));
+                //Creacion linea nieva del  indice
+                var lineaEscribir = "";
+                for (int i = 0; i < split.length-2; i++) {
+                    if(i != parametroModificar){
+                        lineaEscribir += split[i] + "|";
+                    }
+                    else{
+                        lineaEscribir += contenidoModificado+"|";
+                    }
+                }
+                lineaEscribir += split[10];
+                Modificar(bloque, linea, lineaEscribir, strError);
+                ModifyFilesDescUser(nombre + numBI[0], 10, llave1, false, strError);
                 break;
             }
             busqueda = Integer.parseInt(split[2]);
@@ -1008,7 +1052,8 @@ public class ManejoArchivo {
             var linea = LecturaLinea(origen, strError, indice);
             var split = linea.split(Pattern.quote("|"));
             if(split[lastPos].equals("1")){
-                var newLine = split[1] + "|" + split[2] + "|" + split[3] + "|" + split[4] + "|" + split[5] + "|" + split[6];
+                // se envia sin el split[0] debido a que se re coloca en insertar
+                var newLine = split[1] +"|"+ split[2] +"|"+ split[3] +"|"+ split[4] +"|"+ split[5] +"|"+ split[6] +"|"+ split[7] +"|"+ split[8] +"|"+ split[9] +"|"+ split[10];
                 insertar(nombre, newLine, strError);
                 cantVigente++;
             }
@@ -1024,6 +1069,65 @@ public class ManejoArchivo {
             origen = new File("C:/MEIA/desc_" + nombre + i + ".txt");
             origen.delete();
         }
+    }
+    void limpiarIndice(String nombre, int lastPos){
+        Path destino = Paths.get("C:/MEIA/ind_" + nombre + "_temp.txt");
+        Path origen = Paths.get("C:/MEIA/ind_" + nombre + ".txt");
+        try {
+            Files.copy(origen, destino, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException ex) {}
+        File inputFile = new File("C:/MEIA/ind_" + nombre + "_temp.txt");
+        File outputFile = new File("C:/MEIA/ind_" + nombre + ".txt");
+        
+        var max = maximoReorganizar2(nombre);
+        var bloques = 0;
+        var bloqueRegistro = 1;
+        var registro = 1;
+        var strError = "";
+        try
+        {
+            PrintWriter writer = new PrintWriter(outputFile);
+            writer.print("");
+            writer.close();
+        }catch(FileNotFoundException ex){
+            strError = ex.getMessage();
+        }
+        try{
+            FileReader fReader = new FileReader(inputFile); 
+            BufferedReader br = new BufferedReader(fReader);
+            try
+            {
+                var Linea = br.readLine();
+                while(Linea != null)
+                {
+                    if(!"".equals(Linea))
+                    {
+                        var split = Linea.split(Pattern.quote("|"));
+                        if(split[lastPos].equals("1")){
+                            var newLine = registro + "|" + bloques + "." + bloqueRegistro + "|0|" + split[3] + "|" 
+                                    + split[4] + "|" + split[5] + "|" + split[6] + "|" + split[7];
+                            Escritura(outputFile, newLine, strError, true);
+                            registro++;
+                            if(bloqueRegistro == max){
+                                bloqueRegistro = 1;
+                                bloques++;
+                            }
+                            else{
+                                bloqueRegistro++;
+                            }
+                        }
+                    }
+                    Linea = br.readLine();
+                }
+                br.close();
+                fReader.close();
+            } catch (IOException ex) {
+            }
+        }catch(FileNotFoundException ex){
+        }
+        inputFile.delete();
+        orderIndex(outputFile);
+        modifyDescInd(nombre, lastPos, false, "root");
     }
     void orderIndex(File Archivo){
         var strError = "";
@@ -1083,6 +1187,7 @@ public class ManejoArchivo {
     }
     
     public void limpiarBI(String nombre){
-        limpiarBloque("usuario", 6);
+        limpiarBloque("usuario", 10);
+        limpiarIndice("usuario", 7);
     }
 }

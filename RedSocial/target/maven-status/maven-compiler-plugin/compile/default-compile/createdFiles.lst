@@ -1,6 +1,7 @@
 com\mycompany\primer_proyecto\Register$5.class
 com\mycompany\primer_proyecto\Register$15.class
 com\redsocial\redsocial\Menu_Usuario_Administrador$5.class
+com\redsocial\redsocial\Perfil$3.class
 management\ManejoUsuario.class
 com\redsocial\redsocial\Menu_Usuario_Regular$2.class
 com\redsocial\redsocial\Menu_Usuario_Regular.class
@@ -10,14 +11,19 @@ com\mycompany\primer_proyecto\Register$2.class
 com\redsocial\redsocial\Menu_Usuario_Administrador$1.class
 com\mycompany\primer_proyecto\Register$11.class
 management\Data.class
+com\redsocial\redsocial\Opciones$1.class
 com\redsocial\redsocial\Menu_Usuario_Regular$5.class
 management\ManejoArchivo.class
 com\redsocial\redsocial\Usuario.class
 com\redsocial\redsocial\Menu_Usuario_Administrador.class
 com\mycompany\primer_proyecto\Register$6.class
+com\redsocial\redsocial\Cambar.class
 com\redsocial\redsocial\Menu_Usuario_Administrador$4.class
+com\redsocial\redsocial\Perfil$2.class
 com\redsocial\redsocial\Menu_Usuario_Regular$3.class
+com\redsocial\redsocial\Perfil.class
 com\mycompany\primer_proyecto\Register$12.class
+com\redsocial\redsocial\Cambar$1.class
 com\mycompany\primer_proyecto\Login$1.class
 com\mycompany\primer_proyecto\Register$9.class
 com\redsocial\redsocial\Buscar_Usuario$2.class
@@ -28,6 +34,8 @@ com\mycompany\primer_proyecto\Register$10.class
 com\mycompany\primer_proyecto\Login.class
 com\mycompany\primer_proyecto\Login$5.class
 com\redsocial\redsocial\Menu_Usuario_Administrador$7.class
+com\redsocial\redsocial\Opciones$2.class
+com\redsocial\redsocial\Opciones.class
 com\mycompany\primer_proyecto\Register$7.class
 com\redsocial\redsocial\Visualizador.class
 com\mycompany\primer_proyecto\Register$3.class
@@ -35,7 +43,9 @@ com\mycompany\primer_proyecto\Register$13.class
 com\redsocial\redsocial\Menu_Usuario_Administrador$3.class
 com\redsocial\redsocial\Visualizador$2.class
 management\BackupManagement.class
+com\redsocial\redsocial\Perfil$1.class
 com\redsocial\redsocial\Buscar_Usuario$3.class
+com\redsocial\redsocial\Cambar$2.class
 com\redsocial\redsocial\Menu_Usuario_Administrador$6.class
 com\redsocial\redsocial\Buscar_Usuario.class
 com\mycompany\primer_proyecto\Register$4.class

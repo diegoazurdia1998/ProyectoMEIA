@@ -300,6 +300,7 @@ Usuario auxUsuario;
         // TODO add your handling code here:
         var objManArch = new ManejoArchivo();
         objManArch.limpiarSalir("usuario", auxUsuario.Usuario, 9);
+        objManArch.limpiarBI("usuario");
         JOptionPane.showMessageDialog(null, "Archivos reorganizados", "EXITO", 1);
     }//GEN-LAST:event_btnReorganizarActionPerformed
 
@@ -307,11 +308,14 @@ Usuario auxUsuario;
         // TODO add your handling code here:
         Data.getData().setUser(auxUsuario.Usuario);
         BackupManagement backup = new BackupManagement();
-        backup.DoBackup(txtBackup.getText());
-        if(backup.CheckFilesBackup()){
+        
+        if(!backup.CheckFilesBackup()){
             backup.CreateFiles(txtBackup.getText());
+            backup.DoBackup(txtBackup.getText());
+            backup.ModificateFilesBackup(txtBackup.getText());
         }
         else{
+            backup.DoBackup(txtBackup.getText());
             backup.ModificateFilesBackup(txtBackup.getText());
         }
         JOptionPane.showMessageDialog(null, "Archivos respardados en: " + txtBackup.getText(), "EXITO", 1);

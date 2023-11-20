@@ -17,15 +17,15 @@ import java.util.Date;
  */
 public class Usuario {
     public String Usuario;
-    String Nombre;
-    String Apellido;
-    String Password;
-    int Rol;
-    String Fecha_nacimiento;
-    String Correo_electronico;
-    String Telefono;
-    String Path_fotografia;
-    int Estatus;
+    public String Nombre;
+    public String Apellido;
+    public String Password;
+    public int Rol;
+    public String Fecha_nacimiento;
+    public String Correo_electronico;
+    public String Telefono;
+    public String Path_fotografia;
+    public int Estatus;
     /**
      * Constructor para un usuario solo con nombre
      * @param PNombre nombre del usuario

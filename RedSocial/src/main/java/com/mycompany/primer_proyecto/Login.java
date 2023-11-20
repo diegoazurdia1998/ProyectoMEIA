@@ -234,7 +234,7 @@ public class Login extends javax.swing.JFrame {
                 }
             }
             
-            objManejoArchivo.limpiarBI("Lista_usuario");
+            objManejoArchivo.limpiarBI("usuario");
             System.exit(0);
             
         } 
